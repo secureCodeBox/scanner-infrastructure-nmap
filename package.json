@@ -1,0 +1,25 @@
+{
+    "name": "securebox-nmap",
+    "version": "0.0.1",
+    "description": "SecureCodeBox Nmap Scanner",
+    "author": "iteratec GmbH",
+    "license": "Apache-2.0",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "test": "jest",
+        "build-dev": "docker build -t dev_nmap ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:secureCodeBox/scanner-infrastructure-nmap.git"
+    },
+    "dependencies": {
+        "@securecodebox/securecodebox-worker": "0.0.5",
+        "lodash": "^4.17.4",
+        "node-nmap": "^4.0.0"
+    },
+    "devDependencies": {
+        "jest": "^22.0.4"
+    }
+}

@@ -1,0 +1,10 @@
+# Node
+node_modules/
+coverage/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Mac
+.DS_Store
