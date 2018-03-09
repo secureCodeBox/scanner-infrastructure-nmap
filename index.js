@@ -2,7 +2,7 @@ const SecureCodeBoxWorker = require('@securecodebox/securecodebox-worker');
 const { worker } = require('./src/nmap');
 
 const secureCodeBoxWorker = new SecureCodeBoxWorker({
-    engineAddress: 'http://secureboxengine:8080/engine-rest',
+    engineAddress: 'http://localhost:8080/rest',
     workername: 'nmap',
 });
 
