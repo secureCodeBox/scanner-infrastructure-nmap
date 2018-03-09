@@ -12,14 +12,22 @@ You can configure this service by specifing the following environment variables:
 | ENGINE_BASIC_AUTH_USER     | username                     |
 | ENGINE_BASIC_AUTH_PASSWORD | 123456                       |
 
-## Build
+## Development
 
-Build the docker container:
+## Local setup
 
-`docker build -t CONTAINER_NAME .`
+1.  Clone the repe
+2.  Install the dependencies `npm install`
+3.  Run localy `npm start`
 
 ## Test
 
-Run the testsuite:
+To run the testsuite run:
 
 `npm test`
+
+## Build
+
+To build the docker container run:
+
+`docker build -t CONTAINER_NAME .`
