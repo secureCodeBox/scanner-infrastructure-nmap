@@ -1,5 +1,6 @@
 const nodeNmap = require('node-nmap');
 const _ = require('lodash');
+const uuid = require('uuid/v4');
 
 function portscan(target, params) {
     return new Promise((resolve, reject) => {
@@ -28,12 +29,31 @@ function transform(hosts = []) {
         }
 
         return openPorts.map(port => {
-            return {
-                ...hostInfo,
-                ...port,
-            };
+            return { ...hostInfo, ...port };
         });
-    });
+    }).map(finding => ({
+        id: uuid(),
+        name: finding.service,
+        description: `Port ${finding.port} is open using ${
+            finding.protocol
+        } protocol.`,
+        osiLayer: 'NETWORK',
+        reference: null,
+        severity: 'INFORMATIONAL',
+        attributes: {
+            port: finding.port,
+            ipAddress: finding.ip,
+            macAddress: finding.mac,
+            protocol: finding.protocol,
+            hostname: finding.hostname,
+            method: finding.method,
+            operatingSystem: finding.osNmap,
+            service: finding.service,
+        },
+        hint: null,
+        category: 'Open Port',
+        location: `${finding.protocol}://${finding.ip}:${finding.port}`,
+    }));
 
     return findings;
 }
