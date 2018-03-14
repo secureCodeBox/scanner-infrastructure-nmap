@@ -4,7 +4,7 @@ secureBoxNmap is a self contained µService utilizing the Nmap Networkscanner fo
 
 ## Configuration Options
 
-You can configure this service by specifing the following environment variables:
+To configure this service specify the following environment variables:
 
 | Environment Variable       | Value Example                |
 | -------------------------- | ---------------------------- |
@@ -14,19 +14,19 @@ You can configure this service by specifing the following environment variables:
 
 ## Development
 
-## Local setup
+### Local setup
 
-1.  Clone the repe
+1.  Clone the repository
 2.  Install the dependencies `npm install`
 3.  Run localy `npm start`
 
-## Test
+### Test
 
 To run the testsuite run:
 
 `npm test`
 
-## Build
+### Build
 
 To build the docker container run:
 
