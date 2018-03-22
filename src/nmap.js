@@ -14,48 +14,36 @@ function portscan(target, params) {
 }
 
 /**
- * Transforms a array of hosts to a array of open ports with the host information included in the port entry
+ * Transforms the array of hosts into an array of open ports with host information included in each port entry.
  *
- * @param {array<host>} hosts A array of hosts
+ * @param {array<host>} hosts An array of hosts
  */
 function transform(hosts = []) {
-    if (!hosts) {
-        return [];
-    }
-
-    const findings = _.flatMap(hosts, ({ openPorts = [], ...hostInfo }) => {
-        if (!openPorts) {
-            return [];
-        }
-
-        return openPorts.map(port => {
-            return { ...hostInfo, ...port };
+    return _.flatMap(hosts, ({ openPorts = [], ...hostInfo }) => {
+        return _.map(openPorts, openPort => {
+            return {
+                id: uuid(),
+                name: openPort.service,
+                description: `Port ${openPort.port} is open using ${openPort.protocol} protocol.`,
+                osiLayer: 'NETWORK',
+                reference: null,
+                severity: 'INFORMATIONAL',
+                attributes: {
+                    port: openPort.port,
+                    ipAddress: hostInfo.ip,
+                    macAddress: hostInfo.mac,
+                    protocol: openPort.protocol,
+                    hostname: hostInfo.hostname,
+                    method: openPort.method,
+                    operatingSystem: hostInfo.osNmap,
+                    service: openPort.service,
+                },
+                hint: null,
+                category: 'Open Port',
+                location: `${openPort.protocol}://${hostInfo.ip}:${openPort.port}`,
+            };
         });
-    }).map(finding => ({
-        id: uuid(),
-        name: finding.service,
-        description: `Port ${finding.port} is open using ${
-            finding.protocol
-        } protocol.`,
-        osiLayer: 'NETWORK',
-        reference: null,
-        severity: 'INFORMATIONAL',
-        attributes: {
-            port: finding.port,
-            ipAddress: finding.ip,
-            macAddress: finding.mac,
-            protocol: finding.protocol,
-            hostname: finding.hostname,
-            method: finding.method,
-            operatingSystem: finding.osNmap,
-            service: finding.service,
-        },
-        hint: null,
-        category: 'Open Port',
-        location: `${finding.protocol}://${finding.ip}:${finding.port}`,
-    }));
-
-    return findings;
+    });
 }
 
 async function worker({ nmap_target, nmap_parameter }) {
