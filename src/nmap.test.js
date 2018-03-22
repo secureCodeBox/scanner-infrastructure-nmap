@@ -64,7 +64,7 @@ describe('nmap', () => {
             });
         });
 
-        xit('should transform results if a host has multiple open ports', () => {
+        it('should transform results if a host has multiple open ports', () => {
             const findings = transform([
                 {
                     hostname: 'securebox',
@@ -79,7 +79,7 @@ describe('nmap', () => {
                         },
                         {
                             port: 80,
-                            protocol: 'tcp',
+                            protocol: 'udp',
                             service: 'http',
                             method: 'table',
                         },
@@ -90,29 +90,51 @@ describe('nmap', () => {
 
             expect(findings).toEqual([
                 {
-                    port: 22,
-                    protocol: 'tcp',
-                    service: 'ssh',
-                    method: 'table',
-                    hostname: 'securebox',
-                    ip: '192.168.99.100',
-                    mac: null,
-                    osNmap: null,
+                    id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
+                    name: 'ssh',
+                    description: 'Port 22 is open using tcp protocol.',
+                    category: 'Open Port',
+                    osiLayer: 'NETWORK',
+                    severity: 'INFORMATIONAL',
+                    reference: null,
+                    hint: null,
+                    location: 'tcp://192.168.99.100:22',
+                    attributes: {
+                        port: 22,
+                        ipAddress: '192.168.99.100',
+                        protocol: 'tcp',
+                        service: 'ssh',
+                        method: 'table',
+                        hostname: 'securebox',
+                        macAddress: null,
+                        operatingSystem: null,
+                    },
                 },
                 {
-                    port: 80,
-                    protocol: 'tcp',
-                    service: 'http',
-                    method: 'table',
-                    hostname: 'securebox',
-                    ip: '192.168.99.100',
-                    mac: null,
-                    osNmap: null,
+                    id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
+                    name: 'http',
+                    description: 'Port 80 is open using udp protocol.',
+                    category: 'Open Port',
+                    osiLayer: 'NETWORK',
+                    severity: 'INFORMATIONAL',
+                    reference: null,
+                    hint: null,
+                    location: 'udp://192.168.99.100:80',
+                    attributes: {
+                        port: 80,
+                        ipAddress: '192.168.99.100',
+                        protocol: 'udp',
+                        service: 'http',
+                        method: 'table',
+                        hostname: 'securebox',
+                        macAddress: null,
+                        operatingSystem: null,
+                    },
                 },
             ]);
         });
 
-        xit('should transform results of multiple hosts into a port array', () => {
+        it('should transform results of multiple hosts into a port array', () => {
             const findings = transform([
                 {
                     hostname: 'securebox',
@@ -135,7 +157,7 @@ describe('nmap', () => {
                     openPorts: [
                         {
                             port: 80,
-                            protocol: 'tcp',
+                            protocol: 'udp',
                             service: 'http',
                             method: 'table',
                         },
@@ -146,29 +168,51 @@ describe('nmap', () => {
 
             expect(findings).toEqual([
                 {
-                    port: 22,
-                    protocol: 'tcp',
-                    service: 'ssh',
-                    method: 'table',
-                    hostname: 'securebox',
-                    ip: '192.168.99.100',
-                    mac: null,
-                    osNmap: null,
+                    id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
+                    name: 'ssh',
+                    description: 'Port 22 is open using tcp protocol.',
+                    category: 'Open Port',
+                    osiLayer: 'NETWORK',
+                    severity: 'INFORMATIONAL',
+                    reference: null,
+                    hint: null,
+                    location: 'tcp://192.168.99.100:22',
+                    attributes: {
+                        port: 22,
+                        ipAddress: '192.168.99.100',
+                        protocol: 'tcp',
+                        service: 'ssh',
+                        method: 'table',
+                        hostname: 'securebox',
+                        macAddress: null,
+                        operatingSystem: null,
+                    },
                 },
                 {
-                    port: 80,
-                    protocol: 'tcp',
-                    service: 'http',
-                    method: 'table',
-                    hostname: 'test',
-                    ip: '192.168.99.101',
-                    mac: null,
-                    osNmap: null,
+                    id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
+                    name: 'http',
+                    description: 'Port 80 is open using udp protocol.',
+                    category: 'Open Port',
+                    osiLayer: 'NETWORK',
+                    severity: 'INFORMATIONAL',
+                    reference: null,
+                    hint: null,
+                    location: 'udp://192.168.99.101:80',
+                    attributes: {
+                        port: 80,
+                        ipAddress: '192.168.99.101',
+                        protocol: 'udp',
+                        service: 'http',
+                        method: 'table',
+                        hostname: 'test',
+                        macAddress: null,
+                        operatingSystem: null,
+                    },
                 },
             ]);
         });
 
-        xit('should still kind of work if the openPorts attribute of the host is not an array', () => {
+        it('should still kind of work if the openPorts attribute of the host is not an array', () => {
             const findings = transform([
                 {
                     hostname: 'securebox',
