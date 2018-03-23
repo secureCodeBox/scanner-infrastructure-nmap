@@ -6,7 +6,9 @@ function portscan(target, params) {
     return new Promise((resolve, reject) => {
         const nmapscan = new nodeNmap.NmapScan(target, params);
 
-        nmapscan.on('complete', resolve);
+        nmapscan.on('complete', hosts =>
+            resolve({ hosts, raw: nmapscan.rawData })
+        );
         nmapscan.on('error', reject);
 
         nmapscan.startScan();
@@ -48,10 +50,10 @@ function transform(hosts = []) {
 
 async function worker({ nmap_target, nmap_parameter }) {
     try {
-        const hosts = await portscan(nmap_target, nmap_parameter);
+        const { hosts, raw } = await portscan(nmap_target, nmap_parameter);
         const result = transform(hosts);
 
-        return { result: JSON.stringify(result) };
+        return { result: JSON.stringify(result), raw };
     } catch (err) {
         console.error(err);
         throw new Error('Failed to execute nmap portscan.');
