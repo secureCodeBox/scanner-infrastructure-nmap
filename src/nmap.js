@@ -24,9 +24,7 @@ function portscan(target, params) {
     return new Promise((resolve, reject) => {
         const nmapscan = new nodeNmap.NmapScan(target, params);
 
-        nmapscan.on('complete', hosts =>
-            resolve({ hosts, raw: nmapscan.rawData })
-        );
+        nmapscan.on('complete', hosts => resolve({ hosts, raw: nmapscan.rawData }));
         nmapscan.on('error', reject);
 
         nmapscan.startScan();
@@ -45,17 +43,17 @@ function transform(hosts = []) {
                 id: uuid(),
                 name: openPort.service,
                 description: `Port ${openPort.port} is open using ${openPort.protocol} protocol.`,
-                osiLayer: 'NETWORK',
+                osi_layer: 'NETWORK',
                 reference: null,
                 severity: 'INFORMATIONAL',
                 attributes: {
                     port: openPort.port,
-                    ipAddress: hostInfo.ip,
-                    macAddress: hostInfo.mac,
+                    ip_address: hostInfo.ip,
+                    mac_address: hostInfo.mac,
                     protocol: openPort.protocol,
                     hostname: hostInfo.hostname,
                     method: openPort.method,
-                    operatingSystem: hostInfo.osNmap,
+                    operating_system: hostInfo.osNmap,
                     service: openPort.service,
                 },
                 hint: null,
