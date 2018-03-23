@@ -17,11 +17,16 @@
  * /
  */
 const { transform } = require('./nmap');
+const uuid = require('uuid/v4');
 
 describe('nmap', () => {
     describe('transform', () => {
         beforeAll(() => {
             jest.mock('uuid/v4');
+        });
+
+        beforeEach(() => {
+            uuid.mockClear();
         });
 
         afterAll(() => {
@@ -31,12 +36,14 @@ describe('nmap', () => {
         it('should transform a empty host array into an empty port array', () => {
             const findings = transform([]);
 
+            expect(uuid).not.toHaveBeenCalled();
             expect(findings).toEqual([]);
         });
 
         it('should transform a null host array into an empty port array', () => {
             const findings = transform(null);
 
+            expect(uuid).not.toHaveBeenCalled();
             expect(findings).toEqual([]);
         });
 
@@ -59,6 +66,7 @@ describe('nmap', () => {
             ]);
 
             expect(otherFindings).toEqual([]);
+            expect(uuid).toHaveBeenCalledTimes(1);
             expect(finding).toEqual({
                 id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
                 name: 'ssh',
@@ -106,6 +114,7 @@ describe('nmap', () => {
                 },
             ]);
 
+            expect(uuid).toHaveBeenCalledTimes(2);
             expect(findings).toEqual([
                 {
                     id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
@@ -184,6 +193,7 @@ describe('nmap', () => {
                 },
             ]);
 
+            expect(uuid).toHaveBeenCalledTimes(2);
             expect(findings).toEqual([
                 {
                     id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
@@ -241,6 +251,7 @@ describe('nmap', () => {
                 },
             ]);
 
+            expect(uuid).not.toHaveBeenCalled();
             expect(findings).toEqual([]);
         });
     });
