@@ -6,11 +6,11 @@ secureBoxNmap is a self contained µService utilizing the Nmap Networkscanner fo
 
 To configure this service specify the following environment variables:
 
-| Environment Variable       | Value Example                |
-| -------------------------- | ---------------------------- |
-| ENGINE_ADDRESS             | http://securebox/engine-rest |
-| ENGINE_BASIC_AUTH_USER     | username                     |
-| ENGINE_BASIC_AUTH_PASSWORD | 123456                       |
+| Environment Variable       | Value Example         |
+| -------------------------- | --------------------- |
+| ENGINE_ADDRESS             | http://securebox/rest |
+| ENGINE_BASIC_AUTH_USER     | username              |
+| ENGINE_BASIC_AUTH_PASSWORD | 123456                |
 
 ## Development
 
