@@ -1,11 +1,16 @@
 language: node_js
 node_js:
   - "8"
-services:
-  - docker
 jobs:
   include:
     - stage: test
       script: npm test
     - stage: build docker image
-      script: docker build -t nmap .
+      services:
+      - docker
+      script:
+#      - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+      - docker build -t container .
+      - docker images
+      - docker tag container securecodebox/scanner-infrastructure-nmap:experimental
+#      - docker push securecodebox/scanner-infrastructure-nmap:experimental
