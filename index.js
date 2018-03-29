@@ -26,7 +26,7 @@ const scannerScaffolding = new ScannerScaffolding({
 
 scannerScaffolding.registerScanner(
     'nmap_portscan',
-    ['nmap_target', 'nmap_parameter'],
+    ['NMAP_TARGET', 'NMAP_PARAMETER'],
     worker
 );
 

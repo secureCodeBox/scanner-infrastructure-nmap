@@ -64,12 +64,12 @@ function transform(hosts = []) {
     });
 }
 
-async function worker({ nmap_target, nmap_parameter }) {
+async function worker({ NMAP_TARGET, NMAP_PARAMETER }) {
     try {
-        const { hosts, raw } = await portscan(nmap_target, nmap_parameter);
+        const { hosts, raw } = await portscan(NMAP_TARGET, NMAP_PARAMETER);
         const result = transform(hosts);
 
-        return { result: JSON.stringify(result), raw };
+        return { result: JSON.stringify(result), raw: {content: raw} };
     } catch (err) {
         console.error(err);
         throw new Error('Failed to execute nmap portscan.');
