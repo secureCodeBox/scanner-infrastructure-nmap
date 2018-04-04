@@ -69,7 +69,7 @@ async function worker({ NMAP_TARGET, NMAP_PARAMETER }) {
         const { hosts, raw } = await portscan(NMAP_TARGET, NMAP_PARAMETER);
         const result = transform(hosts);
 
-        return { result: JSON.stringify(result), raw: {content: raw} };
+        return { PROCESS_FINDINGS: JSON.stringify(result), PROCESS_RAW_FINDINGS: { content: raw } };
     } catch (err) {
         console.error(err);
         throw new Error('Failed to execute nmap portscan.');
