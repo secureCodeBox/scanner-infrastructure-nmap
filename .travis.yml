@@ -9,8 +9,7 @@ jobs:
       services:
       - docker
       script:
-#      - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-      - docker build -t container .
+      - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+      - docker build -t securecodebox/scanner-infrastructure-nmap:oss .
       - docker images
-      - docker tag container securecodebox/scanner-infrastructure-nmap:experimental
-#      - docker push securecodebox/scanner-infrastructure-nmap:experimental
+      - docker push securecodebox/scanner-infrastructure-nmap:oss
