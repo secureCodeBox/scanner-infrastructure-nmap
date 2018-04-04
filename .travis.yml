@@ -5,11 +5,11 @@ jobs:
   include:
     - stage: test
       script: npm test
-    - stage: build docker image
-      services:
-      - docker
-      script:
-      - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-      - docker build -t securecodebox/scanner-infrastructure-nmap:oss .
-      - docker images
-      - docker push securecodebox/scanner-infrastructure-nmap:oss
+# - stage: build docker image
+#   services:
+#   - docker
+#   script:
+#   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+#   - docker build -t securecodebox/scanner-infrastructure-nmap:oss .
+#   - docker images
+#   - docker push securecodebox/scanner-infrastructure-nmap:oss
