@@ -19,6 +19,7 @@
 const nodeNmap = require('node-nmap');
 const _ = require('lodash');
 const uuid = require('uuid/v4');
+const ManualSerialization = require('@securecodebox/camunda-worker-node/lib/manual-serialization');
 
 function portscan(target, params) {
     return new Promise((resolve, reject) => {
@@ -69,7 +70,17 @@ async function worker({ NMAP_TARGET, NMAP_PARAMETER }) {
         const { hosts, raw } = await portscan(NMAP_TARGET, NMAP_PARAMETER);
         const result = transform(hosts);
 
-        return { PROCESS_FINDINGS: JSON.stringify(result), PROCESS_RAW_FINDINGS: { content: raw } };
+        return {
+            PROCESS_FINDINGS: JSON.stringify(result),
+            PROCESS_RAW_FINDINGS: new ManualSerialization({
+                value: JSON.stringify(raw),
+                type: 'Object',
+                valueInfo: {
+                    objectTypeName: 'java.lang.String',
+                    serializationDataFormat: 'application/json',
+                },
+            }),
+        };
     } catch (err) {
         console.error(err);
         throw new Error('Failed to execute nmap portscan.');
