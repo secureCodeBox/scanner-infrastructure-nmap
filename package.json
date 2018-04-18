@@ -18,6 +18,7 @@
         "@securecodebox/scanner-scaffolding": "^0.1.10",
         "lodash": "^4.17.5",
         "node-nmap": "^4.0.0",
+        "npm": "^5.8.0",
         "uuid": "^3.2.1"
     },
     "devDependencies": {
