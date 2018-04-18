@@ -1,3 +1,21 @@
+#################
+## IDE
+#################
+
+.project
+.classpath
+.loadpath
+.settings
+.gradle
+.groovy
+.idea
+.metadata
+*.iml
+*.tmp
+*.bak
+*.class
+*.log
+
 # Node
 node_modules/
 coverage/
