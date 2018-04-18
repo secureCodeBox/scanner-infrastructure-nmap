@@ -16,8 +16,11 @@
  *  limitations under the License.
  * /
  */
-const { transform } = require('./nmap');
+const { transform, worker } = require('./nmap');
 const uuid = require('uuid/v4');
+const portscan = require('../lib/portscan');
+
+jest.mock('../lib/portscan');
 
 describe('nmap', () => {
     describe('transform', () => {
@@ -253,6 +256,49 @@ describe('nmap', () => {
 
             expect(uuid).not.toHaveBeenCalled();
             expect(findings).toEqual([]);
+        });
+    });
+
+    describe('worker', () => {
+        beforeEach(() => {
+            portscan.mockClear();
+        });
+
+        it('should work with a single target', async () => {
+            const targets = JSON.stringify([{ location: 'localhost' }]);
+
+            const result = await worker({ PROCESS_TARGETS: targets });
+
+            expect(portscan).toBeCalledWith('localhost', '');
+
+            expect(result).toMatchSnapshot();
+        });
+
+        it('should take parameters', async () => {
+            const targets = JSON.stringify([
+                { location: 'localhost', attributes: { NMAP_PARAMETER: '-oX' } },
+            ]);
+
+            const result = await worker({ PROCESS_TARGETS: targets });
+
+            expect(portscan).toBeCalledWith('localhost', '-oX');
+
+            expect(result).toMatchSnapshot();
+        });
+
+        it('should run multiple scans when multiple targets are configured', async () => {
+            const targets = JSON.stringify([
+                { location: 'localhost' },
+                { location: 'localhost', attributes: { NMAP_PARAMETER: '-oX' } },
+            ]);
+
+            const result = await worker({ PROCESS_TARGETS: targets });
+
+            expect(portscan).toHaveBeenCalledTimes(2);
+            expect(portscan).toBeCalledWith('localhost', '');
+            expect(portscan).toBeCalledWith('localhost', '-oX');
+
+            expect(result).toMatchSnapshot();
         });
     });
 });
