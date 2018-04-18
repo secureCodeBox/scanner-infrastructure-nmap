@@ -42,6 +42,8 @@ Object {
 }
 `;
 
+exports[`nmap worker should throw an error if a scan fails 1`] = `"Failed to execute nmap portscan."`;
+
 exports[`nmap worker should work with a single target 1`] = `
 Object {
   "PROCESS_FINDINGS": ManualSerialization {

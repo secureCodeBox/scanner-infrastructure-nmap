@@ -27,7 +27,7 @@ const portscan = require('../lib/portscan');
  *
  * @param {array<host>} hosts An array of hosts
  */
-function transform(hosts = []) {
+function transform(hosts) {
     return _.flatMap(hosts, ({ openPorts = [], ...hostInfo }) => {
         return _.map(openPorts, openPort => {
             return {

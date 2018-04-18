@@ -50,6 +50,19 @@ describe('nmap', () => {
             expect(findings).toEqual([]);
         });
 
+        it('should return a empty array if openPorts isnt set', () => {
+            const [finding, ...otherFindings] = transform([
+                {
+                    hostname: 'securebox',
+                    ip: '192.168.99.100',
+                    mac: null,
+                    osNmap: null,
+                },
+            ]);
+
+            expect(otherFindings).toEqual([]);
+        });
+
         it('should transform results of a single host into a port array', () => {
             const [finding, ...otherFindings] = transform([
                 {
@@ -299,6 +312,16 @@ describe('nmap', () => {
             expect(portscan).toBeCalledWith('localhost', '-oX');
 
             expect(result).toMatchSnapshot();
+        });
+
+        it('should throw an error if a scan fails', async () => {
+            const targets = JSON.stringify([{ location: 'localhost' }]);
+
+            portscan.mockReturnValueOnce(Promise.reject());
+
+            expect(worker({ PROCESS_TARGETS: targets })).rejects.toThrowErrorMatchingSnapshot();
+
+            expect(portscan).toBeCalledWith('localhost', '');
         });
     });
 });
