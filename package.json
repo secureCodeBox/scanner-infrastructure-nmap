@@ -7,7 +7,7 @@
     "main": "index.js",
     "scripts": {
         "start": "node index.js",
-        "test": "jest --silent",
+        "test": "jest --silent --coverage",
         "build-dev": "docker build -t dev_nmap ."
     },
     "repository": {
