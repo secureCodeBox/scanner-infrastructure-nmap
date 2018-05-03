@@ -1,32 +1,31 @@
 {
-    "name": "securebox-nmap",
-    "version": "0.0.1",
-    "description": "SecureCodeBox Nmap Scanner",
-    "author": "iteratec GmbH",
-    "license": "Apache-2.0",
-    "main": "index.js",
-    "scripts": {
-        "start": "node index.js",
-        "lint": "eslint **/*.js",
-        "pretest": "eslint **/*.js",
-        "test": "jest --silent --coverage",
-        "build-dev": "docker build -t dev_nmap ."
-    },
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:secureCodeBox/scanner-infrastructure-nmap.git"
-    },
-    "dependencies": {
-        "@securecodebox/scanner-scaffolding": "^1.0.0",
-        "lodash": "^4.17.5",
-        "node-nmap": "^4.0.0",
-        "npm": "^5.8.0",
-        "uuid": "^3.2.1"
-    },
-    "devDependencies": {
-        "eslint": "^4.19.1",
-        "eslint-plugin-prettier": "^2.6.0",
-        "jest": "^22.0.4",
-        "prettier": "^1.12.1"
-    }
+	"name": "securebox-nmap",
+	"version": "0.0.1",
+	"description": "SecureCodeBox Nmap Scanner",
+	"author": "iteratec GmbH",
+	"license": "Apache-2.0",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"lint": "eslint **/*.js",
+		"pretest": "eslint **/*.js",
+		"test": "jest --silent --coverage",
+		"build-dev": "docker build -t dev_nmap ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:secureCodeBox/scanner-infrastructure-nmap.git"
+	},
+	"dependencies": {
+		"@securecodebox/scanner-scaffolding": "^1.0.0",
+		"lodash": "^4.17.10",
+		"node-nmap": "^4.0.0",
+		"uuid": "^3.2.1"
+	},
+	"devDependencies": {
+		"eslint": "^4.19.1",
+		"eslint-plugin-prettier": "^2.6.0",
+		"jest": "^22.4.3",
+		"prettier": "^1.12.1"
+	}
 }
