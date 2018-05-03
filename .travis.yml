@@ -6,7 +6,7 @@ jobs:
     - stage: test
       script: npm test
     - stage: build docker image
-      if: branch IN (master, develop) and type NOT pull_request
+      if: branch IN (master, develop) AND type NOT pull_request
       services:
       - docker
       script:

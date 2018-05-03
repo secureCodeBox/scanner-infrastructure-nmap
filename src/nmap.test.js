@@ -51,7 +51,7 @@ describe('nmap', () => {
         });
 
         it('should return a empty array if openPorts isnt set', () => {
-            const [finding, ...otherFindings] = transform([
+            const findings = transform([
                 {
                     hostname: 'securebox',
                     ip: '192.168.99.100',
@@ -60,7 +60,7 @@ describe('nmap', () => {
                 },
             ]);
 
-            expect(otherFindings).toEqual([]);
+            expect(findings).toEqual([]);
         });
 
         it('should transform results of a single host into a port array', () => {

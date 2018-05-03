@@ -7,6 +7,8 @@
     "main": "index.js",
     "scripts": {
         "start": "node index.js",
+        "lint": "eslint **/*.js",
+        "pretest": "eslint **/*.js",
         "test": "jest --silent --coverage",
         "build-dev": "docker build -t dev_nmap ."
     },
@@ -22,6 +24,9 @@
         "uuid": "^3.2.1"
     },
     "devDependencies": {
-        "jest": "^22.0.4"
+        "eslint": "^4.19.1",
+        "eslint-plugin-prettier": "^2.6.0",
+        "jest": "^22.0.4",
+        "prettier": "^1.12.1"
     }
 }

@@ -24,10 +24,6 @@ const scannerScaffolding = new ScannerScaffolding({
     workername: 'nmap',
 });
 
-scannerScaffolding.registerScanner(
-    'nmap_portscan',
-    ['PROCESS_TARGETS'],
-    worker
-);
+scannerScaffolding.registerScanner('nmap_portscan', ['PROCESS_TARGETS'], worker);
 
 scannerScaffolding.startStatusServer();
