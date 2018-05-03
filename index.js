@@ -19,11 +19,10 @@
 const ScannerScaffolding = require('@securecodebox/scanner-scaffolding');
 const { worker } = require('./src/nmap');
 
-const scannerScaffolding = new ScannerScaffolding({
-    engineAddress: 'http://localhost:8080/rest',
+const scanner = new ScannerScaffolding(worker, {
+    engineAddress: 'http://localhost:8080',
     workername: 'nmap',
+    topic: 'nmap_portscan',
 });
 
-scannerScaffolding.registerScanner('nmap_portscan', ['PROCESS_TARGETS'], worker);
-
-scannerScaffolding.startStatusServer();
+scanner.startStatusServer();

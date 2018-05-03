@@ -18,7 +18,6 @@
  */
 const _ = require('lodash');
 const uuid = require('uuid/v4');
-const ManualSerialization = require('@securecodebox/camunda-worker-node/lib/manual-serialization');
 
 const portscan = require('../lib/portscan');
 
@@ -60,28 +59,13 @@ function joinResults(results) {
     const rawFindings = _.map(results, result => result.raw);
 
     return {
-        PROCESS_FINDINGS: new ManualSerialization({
-            value: JSON.stringify(JSON.stringify(findings)),
-            type: 'Object',
-            valueInfo: {
-                objectTypeName: 'java.lang.String',
-                serializationDataFormat: 'application/json',
-            },
-        }),
-        PROCESS_RAW_FINDINGS: new ManualSerialization({
-            value: JSON.stringify(JSON.stringify(rawFindings)),
-            type: 'Object',
-            valueInfo: {
-                objectTypeName: 'java.lang.String',
-                serializationDataFormat: 'application/json',
-            },
-        }),
+        result: findings,
+        raw: rawFindings,
     };
 }
 
-async function worker({ PROCESS_TARGETS }) {
+async function worker(targets) {
     const results = [];
-    const targets = JSON.parse(PROCESS_TARGETS);
     console.log(`SCANNING ${targets.length} locations`);
     for (const { location, attributes } of targets) {
         try {

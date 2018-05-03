@@ -278,9 +278,7 @@ describe('nmap', () => {
         });
 
         it('should work with a single target', async () => {
-            const targets = JSON.stringify([{ location: 'localhost' }]);
-
-            const result = await worker({ PROCESS_TARGETS: targets });
+            const result = await worker([{ location: 'localhost' }]);
 
             expect(portscan).toBeCalledWith('localhost', '');
 
@@ -288,11 +286,9 @@ describe('nmap', () => {
         });
 
         it('should take parameters', async () => {
-            const targets = JSON.stringify([
+            const result = await worker([
                 { location: 'localhost', attributes: { NMAP_PARAMETER: '-oX' } },
             ]);
-
-            const result = await worker({ PROCESS_TARGETS: targets });
 
             expect(portscan).toBeCalledWith('localhost', '-oX');
 
@@ -300,12 +296,10 @@ describe('nmap', () => {
         });
 
         it('should run multiple scans when multiple targets are configured', async () => {
-            const targets = JSON.stringify([
+            const result = await worker([
                 { location: 'localhost' },
                 { location: 'localhost', attributes: { NMAP_PARAMETER: '-oX' } },
             ]);
-
-            const result = await worker({ PROCESS_TARGETS: targets });
 
             expect(portscan).toHaveBeenCalledTimes(2);
             expect(portscan).toBeCalledWith('localhost', '');
@@ -315,11 +309,9 @@ describe('nmap', () => {
         });
 
         it('should throw an error if a scan fails', async () => {
-            const targets = JSON.stringify([{ location: 'localhost' }]);
-
             portscan.mockReturnValueOnce(Promise.reject());
 
-            expect(worker({ PROCESS_TARGETS: targets })).rejects.toThrowErrorMatchingSnapshot();
+            expect(worker([{ location: 'localhost' }])).rejects.toThrowErrorMatchingSnapshot();
 
             expect(portscan).toBeCalledWith('localhost', '');
         });
