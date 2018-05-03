@@ -1,4 +1,4 @@
-FROM node:8.10-alpine
+FROM node:8.11-alpine
 
 RUN apk update && apk upgrade && apk add nmap nmap-scripts
 
