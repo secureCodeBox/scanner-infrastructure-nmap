@@ -18,11 +18,24 @@
  */
 const ScannerScaffolding = require('@securecodebox/scanner-scaffolding');
 const { worker } = require('./src/nmap');
+const { testRun } = require('./lib/portscan');
 
 const scanner = new ScannerScaffolding(worker, {
     engineAddress: 'http://localhost:8080',
     workername: 'nmap',
     topic: 'nmap_portscan',
+    async testScannerFunctionality() {
+        try {
+            await testRun();
+        } catch (error) {
+            return {
+                testRun: 'failed',
+            };
+        }
+        return {
+            testRun: 'successful',
+        };
+    },
 });
 
 scanner.startStatusServer();
