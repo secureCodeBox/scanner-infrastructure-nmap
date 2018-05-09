@@ -11,6 +11,6 @@ jobs:
       - docker
       script:
       - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-      - docker build -t securecodebox/nmap:oss .
+      - docker build -t securecodebox/nmap:oss --build-arg=COMMIT_ID=$TRAVIS_COMMIT --build-arg=BRANCH=$TRAVIS_BRANCH --build-arg=REPOSITORY_URL="https://github.com/secureCodeBox/scanner-infrastructure-nmap" .
       - docker images
       - docker push securecodebox/nmap:oss

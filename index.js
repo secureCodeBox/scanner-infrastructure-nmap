@@ -28,11 +28,10 @@ const scanner = new ScannerScaffolding(worker, {
         try {
             await testRun();
         } catch (error) {
-            return {
-                testRun: 'failed',
-            };
+            return { version: 'unkown', testRun: 'failed' };
         }
         return {
+            version: 'unkown',
             testRun: 'successful',
         };
     },
