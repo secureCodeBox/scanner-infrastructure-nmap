@@ -18,6 +18,6 @@ jobs:
         - docker tag $REPO:$TAG $REPO:oss;
         - docker tag $REPO:$TAG $REPO:latest;
         - docker tag $REPO:$TAG $REPO:$TRAVIS_BUILD_NUMBER;
-        - docker images
         - echo -en "travis_fold:end:Docker_Build\r"
+        - docker images
         - docker push $REPO
