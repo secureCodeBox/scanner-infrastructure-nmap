@@ -309,7 +309,7 @@ describe('nmap', () => {
         });
 
         it('should throw an error if a scan fails', async () => {
-            portscan.mockReturnValueOnce(Promise.reject());
+            portscan.mockReturnValueOnce(Promise.reject('Failed to scan properly.'));
 
             expect(worker([{ location: 'localhost' }])).rejects.toThrowErrorMatchingSnapshot();
 
