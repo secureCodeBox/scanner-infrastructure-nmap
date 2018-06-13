@@ -77,8 +77,12 @@ async function worker(targets) {
 
             results.push({ findings: result, raw });
         } catch (err) {
-            console.error(err);
-            throw new Error('Failed to execute nmap portscan.');
+            if (err.startsWith(`Failed to resolve "${location}".`)) {
+                console.warn(err);
+            } else {
+                console.error(err);
+                throw new Error('Failed to execute nmap portscan.');
+            }
         }
     }
 
