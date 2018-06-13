@@ -79,6 +79,33 @@ async function worker(targets) {
         } catch (err) {
             if (err.startsWith(`Failed to resolve "${location}".`)) {
                 console.warn(err);
+                results.push({
+                    findings: [
+                        {
+                            id: uuid(),
+                            name: `Canot resolve host "${location}"`,
+                            description:
+                                'The hostname cannot be resolved by DNS from the nmap scanner.',
+                            osi_layer: 'NETWORK',
+                            attributes: {
+                                port: null,
+                                ip_address: null,
+                                protocol: null,
+                                service: null,
+                                method: null,
+                                hostname: location,
+                                mac_address: null,
+                                operating_system: null,
+                            },
+                            reference: null,
+                            severity: 'INFORMATIONAL',
+                            hint: null,
+                            category: 'Host Unresolvable',
+                            location,
+                        },
+                    ],
+                    raw: '',
+                });
             } else {
                 console.error(err);
                 throw new Error('Failed to execute nmap portscan.');

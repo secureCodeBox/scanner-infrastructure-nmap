@@ -324,8 +324,31 @@ describe('nmap', () => {
             );
 
             expect(await worker([{ location: 'foobar' }])).toEqual({
-                raw: [],
-                result: [],
+                raw: [''],
+                result: [
+                    {
+                        id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
+                        name: 'Canot resolve host "foobar"',
+                        description:
+                            'The hostname cannot be resolved by DNS from the nmap scanner.',
+                        category: 'Host Unresolvable',
+                        attributes: {
+                            port: null,
+                            ip_address: null,
+                            protocol: null,
+                            service: null,
+                            method: null,
+                            hostname: 'foobar',
+                            mac_address: null,
+                            operating_system: null,
+                        },
+                        osi_layer: 'NETWORK',
+                        severity: 'INFORMATIONAL',
+                        reference: null,
+                        hint: null,
+                        location: 'foobar',
+                    },
+                ],
             });
 
             expect(portscan).toBeCalledWith('foobar', '');
