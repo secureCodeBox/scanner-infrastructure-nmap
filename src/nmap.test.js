@@ -315,5 +315,20 @@ describe('nmap', () => {
 
             expect(portscan).toBeCalledWith('localhost', '');
         });
+
+        it('should not throw an error if the hostname cannot be resolved', async () => {
+            portscan.mockReturnValueOnce(
+                Promise.reject(
+                    'Failed to resolve "foobar".\nWARNING: No targets were specified, so 0 hosts scanned.'
+                )
+            );
+
+            expect(await worker([{ location: 'foobar' }])).toEqual({
+                raw: [],
+                result: [],
+            });
+
+            expect(portscan).toBeCalledWith('foobar', '');
+        });
     });
 });
