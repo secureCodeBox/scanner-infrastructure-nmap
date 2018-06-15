@@ -21,6 +21,48 @@ const uuid = require('uuid/v4');
 
 const portscan = require('../lib/portscan');
 
+function createFinding({
+    id = uuid(),
+    name,
+    description,
+    osi_layer = 'NETWORK',
+    reference = null,
+    severity = 'INFORMATIONAL',
+    port = null,
+    ip_address = null,
+    mac_address = null,
+    protocol = null,
+    hostname = null,
+    method = null,
+    operating_system = null,
+    service = null,
+    hint = null,
+    category = null,
+    location = null,
+}) {
+    return {
+        id,
+        name,
+        description,
+        osi_layer,
+        reference,
+        severity,
+        attributes: {
+            port,
+            ip_address,
+            mac_address,
+            protocol,
+            hostname,
+            method,
+            operating_system,
+            service,
+        },
+        hint,
+        category,
+        location,
+    };
+}
+
 /**
  * Transforms the array of hosts into an array of open ports with host information included in each port entry.
  *
@@ -29,27 +71,20 @@ const portscan = require('../lib/portscan');
 function transform(hosts) {
     return _.flatMap(hosts, ({ openPorts = [], ...hostInfo }) => {
         return _.map(openPorts, openPort => {
-            return {
-                id: uuid(),
+            return createFinding({
                 name: openPort.service,
                 description: `Port ${openPort.port} is open using ${openPort.protocol} protocol.`,
-                osi_layer: 'NETWORK',
-                reference: null,
-                severity: 'INFORMATIONAL',
-                attributes: {
-                    port: openPort.port,
-                    ip_address: hostInfo.ip,
-                    mac_address: hostInfo.mac,
-                    protocol: openPort.protocol,
-                    hostname: hostInfo.hostname,
-                    method: openPort.method,
-                    operating_system: hostInfo.osNmap,
-                    service: openPort.service,
-                },
-                hint: null,
+                port: openPort.port,
+                ip_address: hostInfo.ip,
+                mac_address: hostInfo.mac,
+                protocol: openPort.protocol,
+                hostname: hostInfo.hostname,
+                method: openPort.method,
+                operating_system: hostInfo.osNmap,
+                service: openPort.service,
                 category: 'Open Port',
                 location: `${openPort.protocol}://${hostInfo.ip}:${openPort.port}`,
-            };
+            });
         });
     });
 }
@@ -81,28 +116,14 @@ async function worker(targets) {
                 console.warn(err);
                 results.push({
                     findings: [
-                        {
-                            id: uuid(),
+                        createFinding({
                             name: `Canot resolve host "${location}"`,
                             description:
                                 'The hostname cannot be resolved by DNS from the nmap scanner.',
-                            osi_layer: 'NETWORK',
-                            attributes: {
-                                port: null,
-                                ip_address: null,
-                                protocol: null,
-                                service: null,
-                                method: null,
-                                hostname: location,
-                                mac_address: null,
-                                operating_system: null,
-                            },
-                            reference: null,
-                            severity: 'INFORMATIONAL',
-                            hint: null,
+                            hostname: location,
                             category: 'Host Unresolvable',
                             location,
-                        },
+                        }),
                     ],
                     raw: '',
                 });
