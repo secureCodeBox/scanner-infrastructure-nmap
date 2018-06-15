@@ -1,6 +1,6 @@
-FROM node:8.11-alpine
+FROM node:10-alpine
 
-RUN apk update && apk upgrade && apk add nmap nmap-scripts
+RUN apk update && apk upgrade && apk add nmap
 
 COPY package.json package-lock.json /src/
 
