@@ -71,7 +71,7 @@ async function worker(targets) {
         try {
             const parameter = _.get(attributes, ['NMAP_PARAMETER'], '');
 
-            console.log(`SCANNING location: ${location}, parameters:${parameter}`);
+            console.log(`SCANNING location: "${location}", parameters: "${parameter}"`);
             const { hosts, raw } = await portscan(location, parameter);
             const result = transform(hosts);
 
