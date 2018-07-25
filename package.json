@@ -17,7 +17,7 @@
         "url": "git@github.com:secureCodeBox/scanner-infrastructure-nmap.git"
     },
     "dependencies": {
-        "@securecodebox/scanner-scaffolding": "^2.0.1",
+        "@securecodebox/scanner-scaffolding": "^2.1.0",
         "lodash": "^4.17.10",
         "node-nmap": "^4.0.0",
         "uuid": "^3.2.1"
@@ -25,7 +25,7 @@
     "devDependencies": {
         "eslint": "^4.19.1",
         "eslint-plugin-prettier": "^2.6.0",
-        "jest": "^22.4.3",
+        "jest": "^23.4.1",
         "prettier": "^1.12.1"
     }
 }

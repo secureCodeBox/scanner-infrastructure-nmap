@@ -16,7 +16,7 @@ RUN addgroup -S nmap_group && adduser -S -g nmap_group nmap_user
 
 USER nmap_user
 
-EXPOSE 3000
+EXPOSE 8080
 
 ARG COMMIT_ID=unkown
 ARG REPOSITORY_URL=unkown
