@@ -1,5 +1,6 @@
 ![Build Status](https://travis-ci.com/secureCodeBox/scanner-infrastructure-nmap.svg?token=2Rsf2E9Bq3FduSxRf6tz&branch=develop)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Known Vulnerabilities](https://snyk.io/test/github/secureCodeBox/scanner-infrastructure-nmap/badge.svg)](https://snyk.io/test/github/secureCodeBox/scanner-infrastructure-nmap)
 
 # About
 This repository contains a self contained µService utilizing the NMAP Networkscanner for the secureCodeBox project.
