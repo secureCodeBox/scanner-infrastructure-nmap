@@ -6,7 +6,7 @@ jobs:
       node_js:
         - "8"
     - stage: build docker image
-      if: branch IN (master, develop) AND type NOT pull_request
+      if: branch IN (master, develop) AND type != pull_request
       services:
         - docker
       script:
