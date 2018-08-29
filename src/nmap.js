@@ -127,6 +127,10 @@ async function worker(targets) {
                     ],
                     raw: '',
                 });
+            } else if (err.startsWith('Error converting XML to JSON in xml2js')) {
+                const error = new Error('Failed to transform nmap xml to json.');
+                error.name = 'TransformationError';
+                throw error;
             } else {
                 console.error(err);
                 throw new Error('Failed to execute nmap portscan.');
