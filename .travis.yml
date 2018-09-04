@@ -1,23 +1,22 @@
 jobs:
-  include:
-    - stage: test
-      script: npm test
-      language: node_js
-      node_js:
-        - "8"
-    - stage: build docker image
-      if: branch IN (master, develop) AND type != pull_request
-      services:
-        - docker
-      script:
-        - export REPO=securecodebox/nmap
-        - export TAG=$TRAVIS_BRANCH
-        - echo -en "travis_fold:start:Docker_Build\r"
-        - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-        - docker build -t $REPO:$TAG --build-arg=COMMIT_ID=$TRAVIS_COMMIT --build-arg=BRANCH=$TRAVIS_BRANCH --build-arg=REPOSITORY_URL="https://github.com/secureCodeBox/scanner-infrastructure-nmap" .
-        - docker tag $REPO:$TAG $REPO:oss;
-        - docker tag $REPO:$TAG $REPO:latest;
-        - docker tag $REPO:$TAG $REPO:$TRAVIS_BUILD_NUMBER;
-        - echo -en "travis_fold:end:Docker_Build\r"
-        - docker images
-        - docker push $REPO
+    include:
+        - stage: test
+          script: npm test
+          language: node_js
+          node_js:
+              - '8'
+        - stage: build docker image
+          services:
+              - docker
+          script:
+              - export REPO=securecodebox/nmap
+              - export TAG=$(echo $TRAVIS_BRANCH | sed 's/\//-/g')
+              - echo -en "travis_fold:start:Docker_Build\r"
+              - docker build -t $REPO:$TAG --build-arg=COMMIT_ID=$TRAVIS_COMMIT --build-arg=BRANCH=$TRAVIS_BRANCH --build-arg=REPOSITORY_URL="https://github.com/secureCodeBox/scanner-infrastructure-nmap" .
+              - echo -en "travis_fold:end:Docker_Build\r"
+deploy:
+    - provider: script
+      skip_cleanup: true
+      script: bash .travis/deployDockerHub.sh
+      on:
+          all_branches: true
