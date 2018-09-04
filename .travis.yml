@@ -12,7 +12,7 @@ jobs:
               - export REPO=securecodebox/nmap
               - export TAG=$(echo $TRAVIS_BRANCH | sed 's/\//-/g')
               - echo -en "travis_fold:start:Docker_Build\r"
-              - docker build -t $REPO:$TAG --build-arg=COMMIT_ID=$TRAVIS_COMMIT --build-arg=BRANCH=$TRAVIS_BRANCH --build-arg=REPOSITORY_URL="https://github.com/secureCodeBox/scanner-infrastructure-nmap" .
+              - docker build -t $REPO:$TAG --build-arg=BUILD_DATE=$(date --rfc-3339=seconds) --build-arg=VERSION=$TRAVIS_TAG --build-arg=COMMIT_ID=$TRAVIS_COMMIT --build-arg=BRANCH=$TRAVIS_BRANCH --build-arg=REPOSITORY_URL="https://github.com/secureCodeBox/scanner-infrastructure-nmap" .
               - echo -en "travis_fold:end:Docker_Build\r"
 deploy:
     - provider: script
