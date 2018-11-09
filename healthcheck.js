@@ -1,24 +1,12 @@
-const http = require ('http');
+try {
 
-const request = http.request ('http://localhost:8080/status', response => {
+	require('http').request('http://localhost:8080/status', response => {
 
-	// exit with error for any non 2xx status code
-	process.exit (response.statusCode >= 300 ? 1 : 0);
+		// exit with error for any non 2xx status code
+		process.exit(response.statusCode >= 300 ? 1 : 0);
 
-	/*
-	const dataChunks = [];
+	}).end();
 
-	response.on ('data', chunk => {
-		dataChunks.push (chunk);
-	});
-
-	response.on ('close', () => {
-		const txtResponse = Buffer.concat (dataChunks).toString ('utf8');
-		const jsonResponse = JSON.parse (txtResponse);
-		if (jsonResponse.healthcheck === 'DOWN') process.exit (1);
-	});
-	*/
-
-});
-
-request.end ();
+} catch (err) {
+	process.exit(1);
+}
