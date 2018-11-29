@@ -21,6 +21,8 @@ const uuid = require('uuid/v4');
 
 const portscan = require('../lib/portscan');
 
+const resultsXmlParser = require('./results-xml');
+
 function createFinding({
     id = uuid(),
     name,
@@ -56,6 +58,7 @@ function createFinding({
             method,
             operating_system,
             service,
+            scripts: null,
         },
         hint,
         category,
@@ -109,6 +112,22 @@ async function worker(targets) {
             console.log(`SCANNING location: "${location}", parameters: "${parameter}"`);
             const { hosts, raw } = await portscan(location, parameter);
             const result = transform(hosts);
+
+            if (typeof parameter === 'string' && parameter.includes('--script=http-headers')) {
+                const scripts = await resultsXmlParser(raw);
+                scripts.forEach (script => {
+                    var res = result.find(check => (check.attributes.port === script.port && check.attributes.hostname === script.hostname));
+                    if (res) {
+                        if (res.attributes.scripts === null) {
+                            res.attributes.scripts = script.scriptOutputs;
+                        } else {
+                            Object.assign(res.attributes.scripts, script.scriptOutputs);
+                        }
+                    } else {
+                        console.warn('found script outputs for ports that are not in the findings');
+                    }
+                });
+            }
 
             results.push({ findings: result, raw });
         } catch (err) {

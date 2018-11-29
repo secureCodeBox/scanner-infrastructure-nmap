@@ -102,6 +102,7 @@ describe('nmap', () => {
                     hostname: 'securebox',
                     mac_address: null,
                     operating_system: null,
+                    scripts: null,
                 },
             });
         });
@@ -151,6 +152,7 @@ describe('nmap', () => {
                         hostname: 'securebox',
                         mac_address: null,
                         operating_system: null,
+                        scripts: null,
                     },
                 },
                 {
@@ -172,6 +174,7 @@ describe('nmap', () => {
                         hostname: 'securebox',
                         mac_address: null,
                         operating_system: null,
+                        scripts: null,
                     },
                 },
             ]);
@@ -230,6 +233,7 @@ describe('nmap', () => {
                         hostname: 'securebox',
                         mac_address: null,
                         operating_system: null,
+                        scripts: null,
                     },
                 },
                 {
@@ -251,6 +255,7 @@ describe('nmap', () => {
                         hostname: 'test',
                         mac_address: null,
                         operating_system: null,
+                        scripts: null,
                     },
                 },
             ]);
@@ -337,6 +342,7 @@ describe('nmap', () => {
                             ip_address: null,
                             protocol: null,
                             service: null,
+                            scripts: null,
                             method: null,
                             hostname: 'foobar',
                             mac_address: null,
