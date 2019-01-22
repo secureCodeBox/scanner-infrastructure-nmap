@@ -39,42 +39,54 @@ async function parseRawXml(xml) {
  */
 async function getScriptOutputs(xml) {
     return new Promise((resolve, reject) => {
-        parseRawXml(xml).then(parsed => {
-            /**
-             * @type {Array<scriptInfo>}
-             */
-            const results = [];
+        parseRawXml(xml)
+            .then(parsed => {
+                /**
+                 * @type {Array<scriptInfo>}
+                 */
+                const results = [];
 
-            parsed.nmaprun.host.forEach(host => {
-                var ip = null, hostname = null;
-                try {
-                    ip = host.address[0].$.addr;
-                } catch (err) {
-                    console.error (err);
-                }
-                try {
-                    hostname = host.hostnames[0].hostname[0].$.name;
-                } catch (err) {
-                    console.error (err);
-                }
-                host.ports[0].port.forEach(port => {
-                    if (port.script && port.script.length > 0) {
-                        var scriptName = port.script[0].$.id, scriptOutput = port.script[0].$.output;
-                        var portId = parseInt(port.$.portid);
-                        var resultsEntry = results.find(check => (check.ip === portId && check.hostname === hostname && check.ip === ip));
-                        if (!resultsEntry) {
-                            results.push(resultsEntry = {
-                                hostname, ip,
-                                port: portId,
-                                scriptOutputs: {}
-                            });
-                        }
-                        resultsEntry.scriptOutputs[scriptName] = scriptOutput;
+                parsed.nmaprun.host.forEach(host => {
+                    var ip = null,
+                        hostname = null;
+                    try {
+                        ip = host.address[0].$.addr;
+                    } catch (err) {
+                        console.error(err);
                     }
+                    try {
+                        hostname = host.hostnames[0].hostname[0].$.name;
+                    } catch (err) {
+                        console.error(err);
+                    }
+                    host.ports[0].port.forEach(port => {
+                        if (port.script && port.script.length > 0) {
+                            var scriptName = port.script[0].$.id,
+                                scriptOutput = port.script[0].$.output;
+                            var portId = parseInt(port.$.portid);
+                            var resultsEntry = results.find(
+                                check =>
+                                    check.ip === portId &&
+                                    check.hostname === hostname &&
+                                    check.ip === ip
+                            );
+                            if (!resultsEntry) {
+                                results.push(
+                                    (resultsEntry = {
+                                        hostname,
+                                        ip,
+                                        port: portId,
+                                        scriptOutputs: {},
+                                    })
+                                );
+                            }
+                            resultsEntry.scriptOutputs[scriptName] = scriptOutput;
+                        }
+                    });
                 });
-            });
-            resolve(results);
-        }).catch(reject);
+                resolve(results);
+            })
+            .catch(reject);
     });
 }
 

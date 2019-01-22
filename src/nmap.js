@@ -115,8 +115,12 @@ async function worker(targets) {
 
             if (typeof parameter === 'string' && parameter.includes('--script=http-headers')) {
                 const scripts = await resultsXmlParser(raw);
-                scripts.forEach (script => {
-                    var res = result.find(check => (check.attributes.port === script.port && check.attributes.hostname === script.hostname));
+                scripts.forEach(script => {
+                    var res = result.find(
+                        check =>
+                            check.attributes.port === script.port &&
+                            check.attributes.hostname === script.hostname
+                    );
                     if (res) {
                         if (res.attributes.scripts === null) {
                             res.attributes.scripts = script.scriptOutputs;
