@@ -66,7 +66,7 @@ async function getScriptOutputs(xml) {
                             var portId = parseInt(port.$.portid);
                             var resultsEntry = results.find(
                                 check =>
-                                    check.ip === portId &&
+                                    check.port === portId &&
                                     check.hostname === hostname &&
                                     check.ip === ip
                             );
