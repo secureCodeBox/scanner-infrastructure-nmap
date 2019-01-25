@@ -16,10 +16,17 @@
  *  limitations under the License.
  * /
  */
+
+/**
+ * @typedef {{ id: string, name: string, description: string, osi_layer: string, reference: any, severity: string, attributes: { port: any, ip_address: any, mac_address: any, protocol: any, hostname: any, method: any, operating_system: any, service: any, scripts: [scriptname: string]: string }, hint: any, category: any, location: any }} Finding
+ */
+
 const _ = require('lodash');
 const uuid = require('uuid/v4');
 
 const portscan = require('../lib/portscan');
+
+const resultsXmlParser = require('./results-xml');
 
 function createFinding({
     id = uuid(),
@@ -56,6 +63,7 @@ function createFinding({
             method,
             operating_system,
             service,
+            scripts: null,
         },
         hint,
         category,
@@ -67,6 +75,7 @@ function createFinding({
  * Transforms the array of hosts into an array of open ports with host information included in each port entry.
  *
  * @param {array<host>} hosts An array of hosts
+ * @returns {Finding[]}
  */
 function transform(hosts) {
     return _.flatMap(hosts, ({ openPorts = [], ...hostInfo }) => {
@@ -89,6 +98,28 @@ function transform(hosts) {
     });
 }
 
+/**
+ *
+ * @param {{ ip: string, hostname: string, port: number, scriptOutputs: {[scriptName:string]:string} }} findingFromXml
+ * @param {Finding[]} findings
+ */
+function addScriptOutputsToFindings(findingFromXml, findings) {
+    var res = findings.find(
+        finding =>
+            finding.attributes.port === findingFromXml.port &&
+            finding.attributes.hostname === findingFromXml.hostname
+    );
+    if (res) {
+        if (res.attributes.scripts === null) {
+            res.attributes.scripts = findingFromXml.scriptOutputs;
+        } else {
+            Object.assign(res.attributes.scripts, findingFromXml.scriptOutputs);
+        }
+    } else {
+        console.warn('found script outputs for ports that are not in the findings');
+    }
+}
+
 function joinResults(results) {
     const findings = _.flatMap(results, result => result.findings);
     const rawFindings = _.map(results, result => result.raw);
@@ -109,6 +140,16 @@ async function worker(targets) {
             console.log(`SCANNING location: "${location}", parameters: "${parameter}"`);
             const { hosts, raw } = await portscan(location, parameter);
             const result = transform(hosts);
+
+            if (
+                typeof parameter === 'string' &&
+                (parameter.includes('--script=') || parameter.includes('-s'))
+            ) {
+                const findingsWithScriptOutput = await resultsXmlParser(raw);
+                findingsWithScriptOutput.forEach(xmlFinding =>
+                    addScriptOutputsToFindings(xmlFinding, result)
+                );
+            }
 
             results.push({ findings: result, raw });
         } catch (err) {
