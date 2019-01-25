@@ -113,7 +113,10 @@ async function worker(targets) {
             const { hosts, raw } = await portscan(location, parameter);
             const result = transform(hosts);
 
-            if (typeof parameter === 'string' && parameter.includes('--script=http-headers')) {
+            if (
+                typeof parameter === 'string' &&
+                (parameter.includes('--script=') || parameter.includes('-s'))
+            ) {
                 const scripts = await resultsXmlParser(raw);
                 scripts.forEach(script => {
                     var res = result.find(
