@@ -16,6 +16,11 @@
  *  limitations under the License.
  * /
  */
+
+/**
+ * @typedef {{ id: string, name: string, description: string, osi_layer: string, reference: any, severity: string, attributes: { port: any, ip_address: any, mac_address: any, protocol: any, hostname: any, method: any, operating_system: any, service: any, scripts: [scriptname: string]: string }, hint: any, category: any, location: any }} Finding
+ */
+
 const _ = require('lodash');
 const uuid = require('uuid/v4');
 
@@ -70,6 +75,7 @@ function createFinding({
  * Transforms the array of hosts into an array of open ports with host information included in each port entry.
  *
  * @param {array<host>} hosts An array of hosts
+ * @returns {Finding[]}
  */
 function transform(hosts) {
     return _.flatMap(hosts, ({ openPorts = [], ...hostInfo }) => {
@@ -90,6 +96,28 @@ function transform(hosts) {
             });
         });
     });
+}
+
+/**
+ *
+ * @param {{ ip: string, hostname: string, port: number, scriptOutputs: {[scriptName:string]:string} }} findingFromXml
+ * @param {Finding[]} findings
+ */
+function addScriptOutputsToFindings(findingFromXml, findings) {
+    var res = findings.find(
+        finding =>
+            finding.attributes.port === findingFromXml.port &&
+            finding.attributes.hostname === findingFromXml.hostname
+    );
+    if (res) {
+        if (res.attributes.scripts === null) {
+            res.attributes.scripts = findingFromXml.scriptOutputs;
+        } else {
+            Object.assign(res.attributes.scripts, findingFromXml.scriptOutputs);
+        }
+    } else {
+        console.warn('found script outputs for ports that are not in the findings');
+    }
 }
 
 function joinResults(results) {
@@ -117,23 +145,10 @@ async function worker(targets) {
                 typeof parameter === 'string' &&
                 (parameter.includes('--script=') || parameter.includes('-s'))
             ) {
-                const scripts = await resultsXmlParser(raw);
-                scripts.forEach(script => {
-                    var res = result.find(
-                        check =>
-                            check.attributes.port === script.port &&
-                            check.attributes.hostname === script.hostname
-                    );
-                    if (res) {
-                        if (res.attributes.scripts === null) {
-                            res.attributes.scripts = script.scriptOutputs;
-                        } else {
-                            Object.assign(res.attributes.scripts, script.scriptOutputs);
-                        }
-                    } else {
-                        console.warn('found script outputs for ports that are not in the findings');
-                    }
-                });
+                const findingsWithScriptOutput = await resultsXmlParser(raw);
+                findingsWithScriptOutput.forEach(xmlFinding =>
+                    addScriptOutputsToFindings(xmlFinding, result)
+                );
             }
 
             results.push({ findings: result, raw });
