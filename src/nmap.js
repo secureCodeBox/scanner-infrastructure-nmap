@@ -153,7 +153,8 @@ async function worker(targets) {
 
             results.push({ findings: result, raw });
         } catch (err) {
-            if (err.startsWith(`Failed to resolve "${location}".`) || err === '\n') {
+            var stringErr = err.message ? err.message : (err.toString ? err.toString() : (''+err));
+            if (stringErr.startsWith(`Failed to resolve "${location}".`) || stringErr === '\n') {
                 console.warn(err);
                 results.push({
                     findings: [
