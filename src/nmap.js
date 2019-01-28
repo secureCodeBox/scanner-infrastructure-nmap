@@ -153,7 +153,8 @@ async function worker(targets) {
 
             results.push({ findings: result, raw });
         } catch (err) {
-            if (err.startsWith(`Failed to resolve "${location}".`) || err === '\n') {
+            var stringErr = extractErrorMessage(err);
+            if (stringErr.startsWith(`Failed to resolve "${location}".`) || stringErr === '\n') {
                 console.warn(err);
                 results.push({
                     findings: [
@@ -180,6 +181,12 @@ async function worker(targets) {
     }
 
     return joinResults(results);
+}
+
+function extractErrorMessage(err) {
+    if (err.message) return err.message;
+    if (err.toString) return err.toString();
+    return '' + err;
 }
 
 module.exports.transform = transform;
