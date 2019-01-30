@@ -59,32 +59,34 @@ async function getScriptOutputs(xml) {
                     } catch (err) {
                         console.error(err);
                     }
-                    host.ports[0].port.forEach(port => {
-                        if (port.script) {
-                            port.script.forEach(script => {
-                                var scriptName = script.$.id,
-                                    scriptOutput = script.$.output;
-                                var portId = parseInt(port.$.portid);
-                                var resultsEntry = results.find(
-                                    check =>
-                                        check.port === portId &&
-                                        check.hostname === hostname &&
-                                        check.ip === ip
-                                );
-                                if (!resultsEntry) {
-                                    results.push(
-                                        (resultsEntry = {
-                                            hostname,
-                                            ip,
-                                            port: portId,
-                                            scriptOutputs: {},
-                                        })
+                    if (host.ports[0].port) {
+                        host.ports[0].port.forEach(port => {
+                            if (port.script) {
+                                port.script.forEach(script => {
+                                    var scriptName = script.$.id,
+                                        scriptOutput = script.$.output;
+                                    var portId = parseInt(port.$.portid);
+                                    var resultsEntry = results.find(
+                                        check =>
+                                            check.port === portId &&
+                                            check.hostname === hostname &&
+                                            check.ip === ip
                                     );
-                                }
-                                resultsEntry.scriptOutputs[scriptName] = scriptOutput;
-                            });
-                        }
-                    });
+                                    if (!resultsEntry) {
+                                        results.push(
+                                            (resultsEntry = {
+                                                hostname,
+                                                ip,
+                                                port: portId,
+                                                scriptOutputs: {},
+                                            })
+                                        );
+                                    }
+                                    resultsEntry.scriptOutputs[scriptName] = scriptOutput;
+                                });
+                            }
+                        });
+                    }
                 });
                 resolve(results);
             })
