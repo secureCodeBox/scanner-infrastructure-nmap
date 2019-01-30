@@ -169,7 +169,7 @@ async function worker(targets) {
                     ],
                     raw: '',
                 });
-            } else if (err.startsWith('Error converting XML to JSON in xml2js')) {
+            } else if (stringErr.startsWith('Error converting XML to JSON in xml2js')) {
                 const error = new Error('Failed to transform nmap xml to json.');
                 error.name = 'TransformationError';
                 throw error;
