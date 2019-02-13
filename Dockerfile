@@ -12,6 +12,8 @@ RUN npm install --production
 
 COPY . /src
 
+HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=3 CMD node healthcheck.js || exit 1
+
 RUN addgroup -S nmap_group && adduser -S -g nmap_group nmap_user 
 
 USER nmap_user
