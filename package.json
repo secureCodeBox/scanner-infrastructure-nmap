@@ -8,7 +8,7 @@
     "scripts": {
         "start": "node index.js",
         "lint": "eslint .",
-        "pretest": "eslint **/*.js",
+        "pretest": "eslint .",
         "test": "jest --silent --coverage",
         "build-dev": "docker build -t dev_nmap ."
     },
