@@ -23,8 +23,7 @@ it('should parse xml without ports correctly', async () => {
         __dirname + '/__test_data__/empty-ports-xml.test.xml',
         'utf8'
     );
-    const [host] = await parse(xmlFile);
+    const hosts = await parse(xmlFile);
 
-    expect(host.hostname).toEqual('sample.host');
-    expect(host.ip).toEqual('8.8.8.8');
+    expect(hosts).toHaveLength(0);
 });

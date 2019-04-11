@@ -1,4 +1,6 @@
 const xml2js = require('xml2js');
+const _ = require('lodash');
+
 /**
  * @typedef {{scanner:string,args:string,start:string,startstr:string,version:string,xmloutputversion:string}} nmaprunParams
  * @typedef {[{$: { type: string, protocol: string, numservices: string, services: string}}]} scaninfo
@@ -38,59 +40,32 @@ async function parseRawXml(xml) {
  * @returns {Promise<[scriptInfo]>}
  */
 async function getScriptOutputs(xml) {
-    return new Promise((resolve, reject) => {
-        parseRawXml(xml)
-            .then(parsed => {
-                /**
-                 * @type {Array<scriptInfo>}
-                 */
-                const results = [];
+    const parsed = await parseRawXml(xml);
 
-                parsed.nmaprun.host.forEach(host => {
-                    var ip = null,
-                        hostname = null;
-                    try {
-                        ip = host.address[0].$.addr;
-                    } catch (err) {
-                        console.error(err);
-                    }
-                    try {
-                        hostname = host.hostnames[0].hostname[0].$.name;
-                    } catch (err) {
-                        console.error(err);
-                    }
-                    if (host.ports[0].port) {
-                        host.ports[0].port.forEach(port => {
-                            if (port.script) {
-                                port.script.forEach(script => {
-                                    var scriptName = script.$.id,
-                                        scriptOutput = script.$.output;
-                                    var portId = parseInt(port.$.portid);
-                                    var resultsEntry = results.find(
-                                        check =>
-                                            check.port === portId &&
-                                            check.hostname === hostname &&
-                                            check.ip === ip
-                                    );
-                                    if (!resultsEntry) {
-                                        results.push(
-                                            (resultsEntry = {
-                                                hostname,
-                                                ip,
-                                                port: portId,
-                                                scriptOutputs: {},
-                                            })
-                                        );
-                                    }
-                                    resultsEntry.scriptOutputs[scriptName] = scriptOutput;
-                                });
-                            }
-                        });
-                    }
-                });
-                resolve(results);
-            })
-            .catch(reject);
+    return _.flatMap(parsed.nmaprun.host, host => {
+        const ip = _.get(host, ['address', 0, '$', 'addr']);
+        const hostname = _.get(host, ['hostnames', 0, 'hostname', 0, '$', 'name']);
+        const ports = _.get(host, ['ports', 0, 'port'], []);
+
+        return ports
+            .filter(port => port.script) // Only return ports with script outputs
+            .map(port => {
+                const scriptOutputs = port.script
+                    //take only the xml attributes
+                    .map(script => script.$)
+                    //transform them into a map
+                    .reduce((scripts, { id, output }) => {
+                        scripts[id] = output;
+                        return scripts;
+                    }, {});
+
+                return {
+                    ip,
+                    hostname,
+                    port: _.toInteger(_.get(port, ['$', 'portid'])),
+                    scriptOutputs,
+                };
+            });
     });
 }
 
