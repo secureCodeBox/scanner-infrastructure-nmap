@@ -166,7 +166,7 @@ async function worker(targets) {
                 results.push({
                     findings: [
                         createFinding({
-                            name: `Canot resolve host "${location}"`,
+                            name: `Can not resolve host "${location}"`,
                             description:
                                 'The hostname cannot be resolved by DNS from the nmap scanner.',
                             hostname: location,
