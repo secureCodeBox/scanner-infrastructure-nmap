@@ -26,8 +26,6 @@ const uuid = require('uuid/v4');
 
 const portscan = require('../lib/portscan');
 
-const resultsXmlParser = require('./results-xml');
-
 function createFinding({
     id = uuid(),
     name,
@@ -47,6 +45,7 @@ function createFinding({
     hint = null,
     category = null,
     location = null,
+    scripts = null,
 }) {
     return {
         id,
@@ -65,7 +64,7 @@ function createFinding({
             method,
             operating_system,
             service,
-            scripts: null,
+            scripts,
         },
         hint,
         category,
@@ -82,6 +81,7 @@ function createFinding({
 function transform(hosts) {
     return _.flatMap(hosts, ({ openPorts = [], ...hostInfo }) => {
         return _.map(openPorts, openPort => {
+            console.log(`creating finding for port "${openPort.port}"`);
             return createFinding({
                 name: openPort.service,
                 description: `Port ${openPort.port} is ${openPort.state} using ${
@@ -98,36 +98,17 @@ function transform(hosts) {
                 service: openPort.service,
                 category: 'Open Port',
                 location: `${openPort.protocol}://${hostInfo.ip}:${openPort.port}`,
+                scripts: openPort.scriptOutputs,
             });
         });
     });
 }
 
-/**
- *
- * @param {{ ip: string, hostname: string, port: number, scriptOutputs: {[scriptName:string]:string} }} findingFromXml
- * @param {Finding[]} findings
- */
-function addScriptOutputsToFindings(findingFromXml, findings) {
-    var res = findings.find(
-        finding =>
-            finding.attributes.port === findingFromXml.port &&
-            finding.attributes.hostname === findingFromXml.hostname
-    );
-    if (res) {
-        if (res.attributes.scripts === null) {
-            res.attributes.scripts = findingFromXml.scriptOutputs;
-        } else {
-            Object.assign(res.attributes.scripts, findingFromXml.scriptOutputs);
-        }
-    } else {
-        console.warn('found script outputs for ports that are not in the findings');
-    }
-}
-
 function joinResults(results) {
     const findings = _.flatMap(results, result => result.findings);
     const rawFindings = _.map(results, result => result.raw);
+
+    console.log(findings);
 
     return {
         result: findings,
@@ -152,16 +133,7 @@ async function worker(targets) {
             console.log(`SCANNING location: "${location}", parameters: "${parameter}"`);
             const { hosts, raw } = await portscan(location, parameter);
             const result = transform(hosts);
-
-            if (
-                typeof parameter === 'string' &&
-                (parameter.includes('--script=') || parameter.includes('-s'))
-            ) {
-                const findingsWithScriptOutput = await resultsXmlParser(raw);
-                findingsWithScriptOutput.forEach(xmlFinding =>
-                    addScriptOutputsToFindings(xmlFinding, result)
-                );
-            }
+            console.log(`FOUND: "${result.length}" findings`);
 
             results.push({ findings: result, raw });
         } catch (err) {
