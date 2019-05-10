@@ -75,6 +75,7 @@ describe('nmap', () => {
                             protocol: 'tcp',
                             service: 'ssh',
                             method: 'table',
+                            state: 'open',
                         },
                     ],
                     osNmap: null,
@@ -103,6 +104,7 @@ describe('nmap', () => {
                     mac_address: null,
                     operating_system: null,
                     scripts: null,
+                    state: 'open',
                 },
             });
         });
@@ -119,12 +121,14 @@ describe('nmap', () => {
                             protocol: 'tcp',
                             service: 'ssh',
                             method: 'table',
+                            state: 'open',
                         },
                         {
                             port: 80,
                             protocol: 'udp',
                             service: 'http',
                             method: 'table',
+                            state: 'open',
                         },
                     ],
                     osNmap: null,
@@ -153,6 +157,7 @@ describe('nmap', () => {
                         mac_address: null,
                         operating_system: null,
                         scripts: null,
+                        state: 'open',
                     },
                 },
                 {
@@ -175,6 +180,7 @@ describe('nmap', () => {
                         mac_address: null,
                         operating_system: null,
                         scripts: null,
+                        state: 'open',
                     },
                 },
             ]);
@@ -192,6 +198,7 @@ describe('nmap', () => {
                             protocol: 'tcp',
                             service: 'ssh',
                             method: 'table',
+                            state: 'open',
                         },
                     ],
                     osNmap: null,
@@ -206,6 +213,7 @@ describe('nmap', () => {
                             protocol: 'udp',
                             service: 'http',
                             method: 'table',
+                            state: 'open',
                         },
                     ],
                     osNmap: null,
@@ -234,6 +242,7 @@ describe('nmap', () => {
                         mac_address: null,
                         operating_system: null,
                         scripts: null,
+                        state: 'open',
                     },
                 },
                 {
@@ -256,6 +265,7 @@ describe('nmap', () => {
                         mac_address: null,
                         operating_system: null,
                         scripts: null,
+                        state: 'open',
                     },
                 },
             ]);
@@ -269,6 +279,7 @@ describe('nmap', () => {
                     mac: null,
                     openPorts: null,
                     osNmap: null,
+                    state: 'open',
                 },
             ]);
 
@@ -347,6 +358,7 @@ describe('nmap', () => {
                             hostname: 'foobar',
                             mac_address: null,
                             operating_system: null,
+                            state: null,
                         },
                         osi_layer: 'NETWORK',
                         severity: 'INFORMATIONAL',
