@@ -36,6 +36,7 @@ function createFinding({
     reference = null,
     severity = 'INFORMATIONAL',
     port = null,
+    state = null,
     ip_address = null,
     mac_address = null,
     protocol = null,
@@ -56,6 +57,7 @@ function createFinding({
         severity,
         attributes: {
             port,
+            state,
             ip_address,
             mac_address,
             protocol,
@@ -82,8 +84,11 @@ function transform(hosts) {
         return _.map(openPorts, openPort => {
             return createFinding({
                 name: openPort.service,
-                description: `Port ${openPort.port} is open using ${openPort.protocol} protocol.`,
+                description: `Port ${openPort.port} is ${openPort.state} using ${
+                    openPort.protocol
+                } protocol.`,
                 port: openPort.port,
+                state: openPort.state,
                 ip_address: hostInfo.ip,
                 mac_address: hostInfo.mac,
                 protocol: openPort.protocol,
