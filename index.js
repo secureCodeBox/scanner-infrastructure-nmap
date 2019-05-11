@@ -26,14 +26,15 @@ const scanner = new ScannerScaffolding(worker, {
     topic: 'nmap_portscan',
     async testScannerFunctionality() {
         try {
-            await testRun();
+            const { version } = await testRun();
+
+            return {
+                version,
+                testRun: 'successful',
+            };
         } catch (error) {
             return { version: 'unkown', testRun: 'failed' };
         }
-        return {
-            version: 'unkown',
-            testRun: 'successful',
-        };
     },
 });
 
