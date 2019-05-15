@@ -62,8 +62,6 @@ function joinResults(results) {
     const findings = _.flatMap(results, result => result.findings);
     const rawFindings = _.map(results, result => result.raw);
 
-    console.log(findings);
-
     return {
         result: findings,
         raw: rawFindings,
@@ -91,7 +89,7 @@ async function worker(targets) {
 
             results.push({ findings: result, raw });
         } catch (err) {
-            var stringErr = extractErrorMessage(err);
+            const stringErr = extractErrorMessage(err);
             if (stringErr.startsWith(`Failed to resolve "${location}".`) || stringErr === '\n') {
                 console.warn(err);
                 results.push({
