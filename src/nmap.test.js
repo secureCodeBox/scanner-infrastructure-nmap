@@ -39,15 +39,13 @@ describe('nmap', () => {
         it('should transform a empty host array into an empty port array', () => {
             const findings = transform([]);
 
-            expect(uuid).not.toHaveBeenCalled();
-            expect(findings).toEqual([]);
+            expect(findings.length).toBe(0);
         });
 
         it('should transform a null host array into an empty port array', () => {
             const findings = transform(null);
 
-            expect(uuid).not.toHaveBeenCalled();
-            expect(findings).toEqual([]);
+            expect(findings.length).toBe(0);
         });
 
         it('should return a empty array if openPorts isnt set', () => {
@@ -60,11 +58,11 @@ describe('nmap', () => {
                 },
             ]);
 
-            expect(findings).toEqual([]);
+            expect(findings.length).toBe(0);
         });
 
         it('should transform results of a single host into a port array', () => {
-            const [finding, ...otherFindings] = transform([
+            const findings = transform([
                 {
                     hostname: 'securebox',
                     ip: '192.168.99.100',
@@ -82,17 +80,13 @@ describe('nmap', () => {
                 },
             ]);
 
-            expect(otherFindings).toEqual([]);
-            expect(uuid).toHaveBeenCalledTimes(1);
-            expect(finding).toEqual({
+            expect(findings).toContainEqual({
                 id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
                 name: 'ssh',
                 description: 'Port 22 is open using tcp protocol.',
                 category: 'Open Port',
                 osi_layer: 'NETWORK',
                 severity: 'INFORMATIONAL',
-                reference: null,
-                hint: null,
                 location: 'tcp://192.168.99.100:22',
                 attributes: {
                     port: 22,
@@ -107,6 +101,7 @@ describe('nmap', () => {
                     state: 'open',
                 },
             });
+            expect(findings.length).toBe(1);
         });
 
         it('should transform results if a host has multiple open ports', () => {
@@ -135,55 +130,50 @@ describe('nmap', () => {
                 },
             ]);
 
-            expect(uuid).toHaveBeenCalledTimes(2);
-            expect(findings).toEqual([
-                {
-                    id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
-                    name: 'ssh',
-                    description: 'Port 22 is open using tcp protocol.',
-                    category: 'Open Port',
-                    osi_layer: 'NETWORK',
-                    severity: 'INFORMATIONAL',
-                    reference: null,
-                    hint: null,
-                    location: 'tcp://192.168.99.100:22',
-                    attributes: {
-                        port: 22,
-                        ip_address: '192.168.99.100',
-                        protocol: 'tcp',
-                        service: 'ssh',
-                        method: 'table',
-                        hostname: 'securebox',
-                        mac_address: null,
-                        operating_system: null,
-                        scripts: null,
-                        state: 'open',
-                    },
+            expect(findings).toContainEqual({
+                id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
+                name: 'ssh',
+                description: 'Port 22 is open using tcp protocol.',
+                category: 'Open Port',
+                osi_layer: 'NETWORK',
+                severity: 'INFORMATIONAL',
+                location: 'tcp://192.168.99.100:22',
+                attributes: {
+                    port: 22,
+                    ip_address: '192.168.99.100',
+                    protocol: 'tcp',
+                    service: 'ssh',
+                    method: 'table',
+                    hostname: 'securebox',
+                    mac_address: null,
+                    operating_system: null,
+                    scripts: null,
+                    state: 'open',
                 },
-                {
-                    id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
-                    name: 'http',
-                    description: 'Port 80 is open using udp protocol.',
-                    category: 'Open Port',
-                    osi_layer: 'NETWORK',
-                    severity: 'INFORMATIONAL',
-                    reference: null,
-                    hint: null,
-                    location: 'udp://192.168.99.100:80',
-                    attributes: {
-                        port: 80,
-                        ip_address: '192.168.99.100',
-                        protocol: 'udp',
-                        service: 'http',
-                        method: 'table',
-                        hostname: 'securebox',
-                        mac_address: null,
-                        operating_system: null,
-                        scripts: null,
-                        state: 'open',
-                    },
+            });
+
+            expect(findings).toContainEqual({
+                id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
+                name: 'http',
+                description: 'Port 80 is open using udp protocol.',
+                category: 'Open Port',
+                osi_layer: 'NETWORK',
+                severity: 'INFORMATIONAL',
+                location: 'udp://192.168.99.100:80',
+                attributes: {
+                    port: 80,
+                    ip_address: '192.168.99.100',
+                    protocol: 'udp',
+                    service: 'http',
+                    method: 'table',
+                    hostname: 'securebox',
+                    mac_address: null,
+                    operating_system: null,
+                    scripts: null,
+                    state: 'open',
                 },
-            ]);
+            });
+            expect(findings.length).toBe(2);
         });
 
         it('should transform results of multiple hosts into a port array', () => {
@@ -220,55 +210,49 @@ describe('nmap', () => {
                 },
             ]);
 
-            expect(uuid).toHaveBeenCalledTimes(2);
-            expect(findings).toEqual([
-                {
-                    id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
-                    name: 'ssh',
-                    description: 'Port 22 is open using tcp protocol.',
-                    category: 'Open Port',
-                    osi_layer: 'NETWORK',
-                    severity: 'INFORMATIONAL',
-                    reference: null,
-                    hint: null,
-                    location: 'tcp://192.168.99.100:22',
-                    attributes: {
-                        port: 22,
-                        ip_address: '192.168.99.100',
-                        protocol: 'tcp',
-                        service: 'ssh',
-                        method: 'table',
-                        hostname: 'securebox',
-                        mac_address: null,
-                        operating_system: null,
-                        scripts: null,
-                        state: 'open',
-                    },
+            expect(findings).toContainEqual({
+                id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
+                name: 'ssh',
+                description: 'Port 22 is open using tcp protocol.',
+                category: 'Open Port',
+                osi_layer: 'NETWORK',
+                severity: 'INFORMATIONAL',
+                location: 'tcp://192.168.99.100:22',
+                attributes: {
+                    port: 22,
+                    ip_address: '192.168.99.100',
+                    protocol: 'tcp',
+                    service: 'ssh',
+                    method: 'table',
+                    hostname: 'securebox',
+                    mac_address: null,
+                    operating_system: null,
+                    scripts: null,
+                    state: 'open',
                 },
-                {
-                    id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
-                    name: 'http',
-                    description: 'Port 80 is open using udp protocol.',
-                    category: 'Open Port',
-                    osi_layer: 'NETWORK',
-                    severity: 'INFORMATIONAL',
-                    reference: null,
-                    hint: null,
-                    location: 'udp://192.168.99.101:80',
-                    attributes: {
-                        port: 80,
-                        ip_address: '192.168.99.101',
-                        protocol: 'udp',
-                        service: 'http',
-                        method: 'table',
-                        hostname: 'test',
-                        mac_address: null,
-                        operating_system: null,
-                        scripts: null,
-                        state: 'open',
-                    },
+            });
+            expect(findings).toContainEqual({
+                id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
+                name: 'http',
+                description: 'Port 80 is open using udp protocol.',
+                category: 'Open Port',
+                osi_layer: 'NETWORK',
+                severity: 'INFORMATIONAL',
+                location: 'udp://192.168.99.101:80',
+                attributes: {
+                    port: 80,
+                    ip_address: '192.168.99.101',
+                    protocol: 'udp',
+                    service: 'http',
+                    method: 'table',
+                    hostname: 'test',
+                    mac_address: null,
+                    operating_system: null,
+                    scripts: null,
+                    state: 'open',
                 },
-            ]);
+            });
+            expect(findings.length).toBe(2);
         });
 
         it('should still kind of work if the openPorts attribute of the host is not an array', () => {
@@ -283,7 +267,6 @@ describe('nmap', () => {
                 },
             ]);
 
-            expect(uuid).not.toHaveBeenCalled();
             expect(findings).toEqual([]);
         });
     });
@@ -349,21 +332,10 @@ describe('nmap', () => {
                             'The hostname cannot be resolved by DNS from the nmap scanner.',
                         category: 'Host Unresolvable',
                         attributes: {
-                            port: null,
-                            ip_address: null,
-                            protocol: null,
-                            service: null,
-                            scripts: null,
-                            method: null,
                             hostname: 'foobar',
-                            mac_address: null,
-                            operating_system: null,
-                            state: null,
                         },
                         osi_layer: 'NETWORK',
                         severity: 'INFORMATIONAL',
-                        reference: null,
-                        hint: null,
                         location: 'foobar',
                     },
                 ],

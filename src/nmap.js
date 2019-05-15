@@ -17,89 +17,43 @@
  * /
  */
 
-/**
- * @typedef {{ id: string, name: string, description: string, osi_layer: string, reference: any, severity: string, attributes: { port: any, ip_address: any, mac_address: any, protocol: any, hostname: any, method: any, operating_system: any, service: any, scripts: [scriptname: string]: string }, hint: any, category: any, location: any }} Finding
- */
-
 const _ = require('lodash');
 const uuid = require('uuid/v4');
 
 const portscan = require('../lib/portscan');
-
-function createFinding({
-    id = uuid(),
-    name,
-    description,
-    osi_layer = 'NETWORK',
-    reference = null,
-    severity = 'INFORMATIONAL',
-    port = null,
-    state = null,
-    ip_address = null,
-    mac_address = null,
-    protocol = null,
-    hostname = null,
-    method = null,
-    operating_system = null,
-    service = null,
-    hint = null,
-    category = null,
-    location = null,
-    scripts = null,
-}) {
-    return {
-        id,
-        name,
-        description,
-        osi_layer,
-        reference,
-        severity,
-        attributes: {
-            port,
-            state,
-            ip_address,
-            mac_address,
-            protocol,
-            hostname,
-            method,
-            operating_system,
-            service,
-            scripts,
-        },
-        hint,
-        category,
-        location,
-    };
-}
-
 /**
  * Transforms the array of hosts into an array of open ports with host information included in each port entry.
  *
- * @param {array<host>} hosts An array of hosts
+ * @param {Hosty[]} hosts An array of hosts
  * @returns {Finding[]}
  */
 function transform(hosts) {
     return _.flatMap(hosts, ({ openPorts = [], ...hostInfo }) => {
         return _.map(openPorts, openPort => {
             console.log(`creating finding for port "${openPort.port}"`);
-            return createFinding({
+            return {
+                id: uuid(),
                 name: openPort.service,
                 description: `Port ${openPort.port} is ${openPort.state} using ${
                     openPort.protocol
                 } protocol.`,
-                port: openPort.port,
-                state: openPort.state,
-                ip_address: hostInfo.ip,
-                mac_address: hostInfo.mac,
-                protocol: openPort.protocol,
-                hostname: hostInfo.hostname,
-                method: openPort.method,
-                operating_system: hostInfo.osNmap,
-                service: openPort.service,
                 category: 'Open Port',
                 location: `${openPort.protocol}://${hostInfo.ip}:${openPort.port}`,
-                scripts: openPort.scriptOutputs,
-            });
+                osi_layer: 'NETWORK',
+                severity: 'INFORMATIONAL',
+                attributes: {
+                    port: openPort.port,
+                    state: openPort.state,
+                    ip_address: hostInfo.ip,
+                    mac_address: hostInfo.mac,
+                    protocol: openPort.protocol,
+                    hostname: hostInfo.hostname,
+                    method: openPort.method,
+                    operating_system: hostInfo.osNmap,
+                    service: openPort.service,
+                    scripts: openPort.scriptOutputs || null,
+                },
+            };
         });
     });
 }
@@ -142,14 +96,19 @@ async function worker(targets) {
                 console.warn(err);
                 results.push({
                     findings: [
-                        createFinding({
+                        {
+                            id: uuid(),
                             name: `Canot resolve host "${location}"`,
                             description:
                                 'The hostname cannot be resolved by DNS from the nmap scanner.',
-                            hostname: location,
                             category: 'Host Unresolvable',
                             location,
-                        }),
+                            severity: 'INFORMATIONAL',
+                            osi_layer: 'NETWORK',
+                            attributes: {
+                                hostname: location,
+                            },
+                        },
                     ],
                     raw: '',
                 });
