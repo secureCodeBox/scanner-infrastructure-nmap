@@ -58,7 +58,22 @@ describe('nmap', () => {
                 },
             ]);
 
-            expect(findings.length).toBe(0);
+            expect(findings).toContainEqual({
+                id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
+                name: 'Host: securebox',
+                description: 'Found a host',
+                category: 'Host',
+                osi_layer: 'NETWORK',
+                severity: 'INFORMATIONAL',
+                location: 'securebox',
+                attributes: {
+                    ip_address: '192.168.99.100',
+                    hostname: 'securebox',
+                    operating_system: null,
+                },
+            });
+
+            expect(findings.length).toBe(1);
         });
 
         it('should transform results of a single host into a port array', () => {
@@ -82,6 +97,20 @@ describe('nmap', () => {
 
             expect(findings).toContainEqual({
                 id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
+                name: 'Host: securebox',
+                description: 'Found a host',
+                category: 'Host',
+                osi_layer: 'NETWORK',
+                severity: 'INFORMATIONAL',
+                location: 'securebox',
+                attributes: {
+                    ip_address: '192.168.99.100',
+                    hostname: 'securebox',
+                    operating_system: null,
+                },
+            });
+            expect(findings).toContainEqual({
+                id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
                 name: 'ssh',
                 description: 'Port 22 is open using tcp protocol.',
                 category: 'Open Port',
@@ -101,7 +130,7 @@ describe('nmap', () => {
                     state: 'open',
                 },
             });
-            expect(findings.length).toBe(1);
+            expect(findings.length).toBe(2);
         });
 
         it('should transform results if a host has multiple open ports', () => {
@@ -130,6 +159,20 @@ describe('nmap', () => {
                 },
             ]);
 
+            expect(findings).toContainEqual({
+                id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
+                name: 'Host: securebox',
+                description: 'Found a host',
+                category: 'Host',
+                osi_layer: 'NETWORK',
+                severity: 'INFORMATIONAL',
+                location: 'securebox',
+                attributes: {
+                    ip_address: '192.168.99.100',
+                    hostname: 'securebox',
+                    operating_system: null,
+                },
+            });
             expect(findings).toContainEqual({
                 id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
                 name: 'ssh',
@@ -173,7 +216,7 @@ describe('nmap', () => {
                     state: 'open',
                 },
             });
-            expect(findings.length).toBe(2);
+            expect(findings.length).toBe(3);
         });
 
         it('should transform results of multiple hosts into a port array', () => {
@@ -210,6 +253,34 @@ describe('nmap', () => {
                 },
             ]);
 
+            expect(findings).toContainEqual({
+                id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
+                name: 'Host: securebox',
+                description: 'Found a host',
+                category: 'Host',
+                osi_layer: 'NETWORK',
+                severity: 'INFORMATIONAL',
+                location: 'securebox',
+                attributes: {
+                    ip_address: '192.168.99.100',
+                    hostname: 'securebox',
+                    operating_system: null,
+                },
+            });
+            expect(findings).toContainEqual({
+                id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
+                name: 'Host: test',
+                description: 'Found a host',
+                category: 'Host',
+                osi_layer: 'NETWORK',
+                severity: 'INFORMATIONAL',
+                location: 'test',
+                attributes: {
+                    ip_address: '192.168.99.101',
+                    hostname: 'test',
+                    operating_system: null,
+                },
+            });
             expect(findings).toContainEqual({
                 id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
                 name: 'ssh',
@@ -252,7 +323,7 @@ describe('nmap', () => {
                     state: 'open',
                 },
             });
-            expect(findings.length).toBe(2);
+            expect(findings.length).toBe(4);
         });
 
         it('should still kind of work if the openPorts attribute of the host is not an array', () => {
@@ -267,7 +338,21 @@ describe('nmap', () => {
                 },
             ]);
 
-            expect(findings).toEqual([]);
+            expect(findings).toContainEqual({
+                id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
+                name: 'Host: securebox',
+                description: 'Found a host',
+                category: 'Host',
+                osi_layer: 'NETWORK',
+                severity: 'INFORMATIONAL',
+                location: 'securebox',
+                attributes: {
+                    ip_address: '192.168.99.100',
+                    hostname: 'securebox',
+                    operating_system: null,
+                },
+            });
+            expect(findings.length).toBe(1);
         });
     });
 
