@@ -28,7 +28,7 @@ const portscan = require('../lib/portscan');
  * @returns {Finding[]}
  */
 function transform(hosts) {
-    return _.flatMap(hosts, ({ openPorts = [], ...hostInfo }) => {
+    const portFindings = _.flatMap(hosts, ({ openPorts = [], ...hostInfo }) => {
         return _.map(openPorts, openPort => {
             console.log(`creating finding for port "${openPort.port}"`);
             return {
@@ -56,6 +56,25 @@ function transform(hosts) {
             };
         });
     });
+
+    const hostFindings = _.map(hosts, ({ hostname, ip, osNmap }) => {
+        return {
+            id: uuid(),
+            name: `Host: ${hostname}`,
+            category: 'Host',
+            description: 'Found a host',
+            location: hostname,
+            severity: 'INFORMATIONAL',
+            osi_layer: 'NETWORK',
+            attributes: {
+                ip_address: ip,
+                hostname: hostname,
+                operating_system: osNmap,
+            },
+        };
+    });
+
+    return [...portFindings, ...hostFindings];
 }
 
 function joinResults(results) {
