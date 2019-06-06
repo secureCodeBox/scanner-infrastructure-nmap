@@ -333,7 +333,7 @@ describe('nmap', () => {
                 result: [
                     {
                         id: '49bf7fd3-8512-4d73-a28f-608e493cd726',
-                        name: 'Canot resolve host "foobar"',
+                        name: 'Can not resolve host "foobar"',
                         description:
                             'The hostname cannot be resolved by DNS from the nmap scanner.',
                         category: 'Host Unresolvable',
