@@ -137,6 +137,13 @@ async function worker(targets) {
         try {
             const parameter = _.get(attributes, ['NMAP_PARAMETER'], '');
 
+            if (location.startsWith('-')) {
+                console.warn(
+                    `Skipping the target '${location}', targets starting with an '-' would be picked up as an nmap arg.`
+                );
+                continue;
+            }
+
             console.log(`SCANNING location: "${location}", parameters: "${parameter}"`);
             const { hosts, raw } = await portscan(location, parameter);
             const result = transform(hosts);
@@ -159,7 +166,7 @@ async function worker(targets) {
                 results.push({
                     findings: [
                         createFinding({
-                            name: `Canot resolve host "${location}"`,
+                            name: `Can not resolve host "${location}"`,
                             description:
                                 'The hostname cannot be resolved by DNS from the nmap scanner.',
                             hostname: location,
