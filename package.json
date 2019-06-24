@@ -17,7 +17,7 @@
         "url": "git@github.com:secureCodeBox/scanner-infrastructure-nmap.git"
     },
     "dependencies": {
-        "@securecodebox/scanner-scaffolding": "^2.2.4",
+        "@securecodebox/scanner-scaffolding": "^2.2.5",
         "lodash": "^4.17.11",
         "node-nmap": "^4.0.0",
         "uuid": "^3.3.2"
