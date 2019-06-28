@@ -34,9 +34,7 @@ function transform(hosts) {
             return {
                 id: uuid(),
                 name: openPort.service,
-                description: `Port ${openPort.port} is ${openPort.state} using ${
-                    openPort.protocol
-                } protocol.`,
+                description: `Port ${openPort.port} is ${openPort.state} using ${openPort.protocol} protocol.`,
                 category: 'Open Port',
                 location: `${openPort.protocol}://${hostInfo.ip}:${openPort.port}`,
                 osi_layer: 'NETWORK',
@@ -115,7 +113,7 @@ async function worker(targets) {
                     findings: [
                         {
                             id: uuid(),
-                            name: `Canot resolve host "${location}"`,
+                            name: `Can not resolve host "${location}"`,
                             description:
                                 'The hostname cannot be resolved by DNS from the nmap scanner.',
                             category: 'Host Unresolvable',
