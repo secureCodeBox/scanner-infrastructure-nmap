@@ -49,6 +49,8 @@ function transform(hosts) {
                     method: openPort.method,
                     operating_system: hostInfo.osNmap,
                     service: openPort.service,
+                    serviceProduct: openPort.serviceProduct || null,
+                    serviceVersion: openPort.serviceVersion || null,
                     scripts: openPort.scriptOutputs || null,
                 },
             };
