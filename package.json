@@ -1,31 +1,35 @@
 {
-    "name": "securebox-nmap",
-    "version": "1.0.3",
-    "description": "SecureCodeBox Nmap Scanner",
-    "author": "iteratec GmbH",
-    "license": "Apache-2.0",
-    "main": "index.js",
-    "scripts": {
-        "start": "node index.js",
-        "lint": "eslint .",
-        "pretest": "eslint .",
-        "test": "jest --silent --coverage",
-        "build-dev": "docker build -t dev_nmap ."
-    },
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:secureCodeBox/scanner-infrastructure-nmap.git"
-    },
-    "dependencies": {
-        "@securecodebox/scanner-scaffolding": "^2.2.5",
-        "lodash": "^4.17.11",
-        "node-nmap": "^4.0.0",
-        "uuid": "^3.3.2"
-    },
-    "devDependencies": {
-        "eslint": "^6.0.0",
-        "eslint-plugin-prettier": "^3.1.0",
-        "jest": "^24.8.0",
-        "prettier": "^1.18.2"
-    }
+  "name": "securebox-nmap",
+  "version": "1.0.3",
+  "description": "SecureCodeBox Nmap Scanner",
+  "author": "iteratec GmbH",
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "eslint .",
+    "pretest": "eslint .",
+    "test": "jest --silent --coverage",
+    "build-dev": "docker build -t dev_nmap .",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:secureCodeBox/scanner-infrastructure-nmap.git"
+  },
+  "dependencies": {
+    "@securecodebox/scanner-scaffolding": "^2.2.5",
+    "lodash": "^4.17.11",
+    "node-nmap": "^4.0.0",
+    "uuid": "^3.3.2",
+    "snyk": "^1.189.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "jest": "^24.8.0",
+    "prettier": "^1.18.2"
+  },
+  "snyk": true
 }
