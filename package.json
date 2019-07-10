@@ -18,7 +18,7 @@
     },
     "dependencies": {
         "@securecodebox/scanner-scaffolding": "^2.2.5",
-        "lodash": "^4.17.11",
+        "lodash": "^4.17.13",
         "node-nmap": "^4.0.0",
         "uuid": "^3.3.2"
     },
