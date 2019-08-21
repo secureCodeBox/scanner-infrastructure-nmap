@@ -1,0 +1,12 @@
+ARG BASE_TAG=latest
+FROM securecodebox/nmap:${BASE_TAG}
+
+USER root
+
+RUN apk --no-cache add libcap \
+  && setcap 'cap_net_raw,cap_net_admin,cap_net_bind_service+eip' /usr/bin/nmap \
+  && apk --no-cache del libcap
+
+ENV NMAP_PRIVILEGED=true
+
+USER nmap_user
