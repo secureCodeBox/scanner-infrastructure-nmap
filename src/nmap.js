@@ -17,107 +17,64 @@
  * /
  */
 
-/**
- * @typedef {{ id: string, name: string, description: string, osi_layer: string, reference: any, severity: string, attributes: { port: any, ip_address: any, mac_address: any, protocol: any, hostname: any, method: any, operating_system: any, service: any, scripts: [scriptname: string]: string }, hint: any, category: any, location: any }} Finding
- */
-
 const _ = require('lodash');
 const uuid = require('uuid/v4');
 
 const portscan = require('../lib/portscan');
-
-const resultsXmlParser = require('./results-xml');
-
-function createFinding({
-    id = uuid(),
-    name,
-    description,
-    osi_layer = 'NETWORK',
-    reference = null,
-    severity = 'INFORMATIONAL',
-    port = null,
-    ip_address = null,
-    mac_address = null,
-    protocol = null,
-    hostname = null,
-    method = null,
-    operating_system = null,
-    service = null,
-    hint = null,
-    category = null,
-    location = null,
-}) {
-    return {
-        id,
-        name,
-        description,
-        osi_layer,
-        reference,
-        severity,
-        attributes: {
-            port,
-            ip_address,
-            mac_address,
-            protocol,
-            hostname,
-            method,
-            operating_system,
-            service,
-            scripts: null,
-        },
-        hint,
-        category,
-        location,
-    };
-}
-
 /**
  * Transforms the array of hosts into an array of open ports with host information included in each port entry.
  *
- * @param {array<host>} hosts An array of hosts
+ * @param {Hosty[]} hosts An array of hosts
  * @returns {Finding[]}
  */
 function transform(hosts) {
-    return _.flatMap(hosts, ({ openPorts = [], ...hostInfo }) => {
+    const portFindings = _.flatMap(hosts, ({ openPorts = [], ...hostInfo }) => {
         return _.map(openPorts, openPort => {
-            return createFinding({
+            console.log(`creating finding for port "${openPort.port}"`);
+            return {
+                id: uuid(),
                 name: openPort.service,
-                description: `Port ${openPort.port} is open using ${openPort.protocol} protocol.`,
-                port: openPort.port,
-                ip_address: hostInfo.ip,
-                mac_address: hostInfo.mac,
-                protocol: openPort.protocol,
-                hostname: hostInfo.hostname,
-                method: openPort.method,
-                operating_system: hostInfo.osNmap,
-                service: openPort.service,
+                description: `Port ${openPort.port} is ${openPort.state} using ${openPort.protocol} protocol.`,
                 category: 'Open Port',
                 location: `${openPort.protocol}://${hostInfo.ip}:${openPort.port}`,
-            });
+                osi_layer: 'NETWORK',
+                severity: 'INFORMATIONAL',
+                attributes: {
+                    port: openPort.port,
+                    state: openPort.state,
+                    ip_address: hostInfo.ip,
+                    mac_address: hostInfo.mac,
+                    protocol: openPort.protocol,
+                    hostname: hostInfo.hostname,
+                    method: openPort.method,
+                    operating_system: hostInfo.osNmap,
+                    service: openPort.service,
+                    serviceProduct: openPort.serviceProduct || null,
+                    serviceVersion: openPort.serviceVersion || null,
+                    scripts: openPort.scriptOutputs || null,
+                },
+            };
         });
     });
-}
 
-/**
- *
- * @param {{ ip: string, hostname: string, port: number, scriptOutputs: {[scriptName:string]:string} }} findingFromXml
- * @param {Finding[]} findings
- */
-function addScriptOutputsToFindings(findingFromXml, findings) {
-    var res = findings.find(
-        finding =>
-            finding.attributes.port === findingFromXml.port &&
-            finding.attributes.hostname === findingFromXml.hostname
-    );
-    if (res) {
-        if (res.attributes.scripts === null) {
-            res.attributes.scripts = findingFromXml.scriptOutputs;
-        } else {
-            Object.assign(res.attributes.scripts, findingFromXml.scriptOutputs);
-        }
-    } else {
-        console.warn('found script outputs for ports that are not in the findings');
-    }
+    const hostFindings = _.map(hosts, ({ hostname, ip, osNmap }) => {
+        return {
+            id: uuid(),
+            name: `Host: ${hostname}`,
+            category: 'Host',
+            description: 'Found a host',
+            location: hostname,
+            severity: 'INFORMATIONAL',
+            osi_layer: 'NETWORK',
+            attributes: {
+                ip_address: ip,
+                hostname: hostname,
+                operating_system: osNmap,
+            },
+        };
+    });
+
+    return [...portFindings, ...hostFindings];
 }
 
 function joinResults(results) {
@@ -147,32 +104,28 @@ async function worker(targets) {
             console.log(`SCANNING location: "${location}", parameters: "${parameter}"`);
             const { hosts, raw } = await portscan(location, parameter);
             const result = transform(hosts);
-
-            if (
-                typeof parameter === 'string' &&
-                (parameter.includes('--script=') || parameter.includes('-s'))
-            ) {
-                const findingsWithScriptOutput = await resultsXmlParser(raw);
-                findingsWithScriptOutput.forEach(xmlFinding =>
-                    addScriptOutputsToFindings(xmlFinding, result)
-                );
-            }
+            console.log(`FOUND: "${result.length}" findings`);
 
             results.push({ findings: result, raw });
         } catch (err) {
-            var stringErr = extractErrorMessage(err);
+            const stringErr = extractErrorMessage(err);
             if (stringErr.startsWith(`Failed to resolve "${location}".`) || stringErr === '\n') {
                 console.warn(err);
                 results.push({
                     findings: [
-                        createFinding({
+                        {
+                            id: uuid(),
                             name: `Can not resolve host "${location}"`,
                             description:
                                 'The hostname cannot be resolved by DNS from the nmap scanner.',
-                            hostname: location,
                             category: 'Host Unresolvable',
                             location,
-                        }),
+                            severity: 'INFORMATIONAL',
+                            osi_layer: 'NETWORK',
+                            attributes: {
+                                hostname: location,
+                            },
+                        },
                     ],
                     raw: '',
                 });

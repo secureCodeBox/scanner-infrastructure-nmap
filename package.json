@@ -19,12 +19,13 @@
     "dependencies": {
         "@securecodebox/scanner-scaffolding": "^2.2.5",
         "lodash": "^4.17.13",
-        "node-nmap": "^4.0.0",
-        "uuid": "^3.3.2"
+        "uuid": "^3.3.2",
+        "xml2js": "^0.4.19"
     },
     "devDependencies": {
         "eslint": "^6.0.0",
         "eslint-plugin-prettier": "^3.1.0",
+        "eslint-plugin-security": "^1.4.0",
         "jest": "^24.8.0",
         "prettier": "^1.18.2"
     }

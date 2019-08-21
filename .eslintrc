@@ -8,8 +8,8 @@
     "parserOptions": {
         "ecmaVersion": 2018
     },
-    "extends": "eslint:recommended",
-    "plugins": ["prettier"],
+    "extends": ["eslint:recommended", "plugin:security/recommended"],
+    "plugins": ["prettier", "security"],
     "rules": {
         "prettier/prettier": "error",
         "indent": ["error", 4],
