@@ -5,15 +5,12 @@ category: "scanner"
 
 ---
 
-[![Build Status](https://travis-ci.com/secureCodeBox/scanner-infrastructure-nmap.svg?branch=develop)](https://travis-ci.com/secureCodeBox/scanner-infrastructure-nmap)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Known Vulnerabilities](https://snyk.io/test/github/secureCodeBox/scanner-infrastructure-nmap/badge.svg)](https://snyk.io/test/github/secureCodeBox/scanner-infrastructure-nmap)
-[![GitHub release](https://img.shields.io/github/release/secureCodeBox/scanner-infrastructure-nmap.svg)](https://github.com/secureCodeBox/scanner-infrastructure-nmap/releases/latest)
+Nmap ("Network Mapper") is a free and open source (license) utility for network discovery and security auditing. Many systems and network administrators also find it useful for tasks such as network inventory, managing service upgrade schedules, and monitoring host or service uptime. 
+
+<!-- end -->
 
 # About
 This repository contains a self contained µService utilizing the NMAP Networkscanner for the secureCodeBox project.
-
-<!-- end -->
 
 Further Documentation:
 * [Project Description][scb-project]
@@ -45,6 +42,13 @@ To run the testsuite run:
 
 ### Build with docker
 To build the docker container run: `docker build -t CONTAINER_NAME:LABEL .`
+
+[![Build Status](https://travis-ci.com/secureCodeBox/scanner-infrastructure-nmap.svg?branch=develop)](https://travis-ci.com/secureCodeBox/scanner-infrastructure-nmap)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Known Vulnerabilities](https://snyk.io/test/github/secureCodeBox/scanner-infrastructure-nmap/badge.svg)](https://snyk.io/test/github/secureCodeBox/scanner-infrastructure-nmap)
+[![GitHub release](https://img.shields.io/github/release/secureCodeBox/scanner-infrastructure-nmap.svg)](https://github.com/secureCodeBox/scanner-infrastructure-nmap/releases/latest)
+
+
 
 [scb-project]:              https://github.com/secureCodeBox/secureCodeBox
 [scb-developer-guide]:      https://github.com/secureCodeBox/secureCodeBox/blob/develop/docs/developer-guide/README.md
