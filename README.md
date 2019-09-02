@@ -1,5 +1,7 @@
 ---
-title: Nmap
+title: "Nmap"
+path: "scanner/Nmap"
+category: "scanner"
 
 ---
 
@@ -10,6 +12,8 @@ title: Nmap
 
 # About
 This repository contains a self contained µService utilizing the NMAP Networkscanner for the secureCodeBox project.
+
+<!-- end -->
 
 Further Documentation:
 * [Project Description][scb-project]
