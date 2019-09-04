@@ -3,6 +3,7 @@ title: "Nmap"
 path: "scanner/Nmap"
 category: "scanner"
 usecase: "Network Scanner"
+release: "https://img.shields.io/github/release/secureCodeBox/scanner-infrastructure-nmap.svg"
 
 ---
 
