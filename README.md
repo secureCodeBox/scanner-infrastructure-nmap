@@ -2,6 +2,7 @@
 title: "Nmap"
 path: "scanner/Nmap"
 category: "scanner"
+usecase: "Network Scanner"
 
 ---
 
