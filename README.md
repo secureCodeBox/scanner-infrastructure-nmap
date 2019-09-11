@@ -14,7 +14,7 @@ Nmap ("Network Mapper") is a free and open source (license) utility for network 
 <!-- end -->
 
 # About
-This repository contains a self contained µService utilizing the NMAP Networkscanner for the secureCodeBox project. To learn more about the WPScan scanner itself visit [nmap.org].
+This repository contains a self contained µService utilizing the NMAP Networkscanner for the secureCodeBox project. To learn more about the Nmap scanner itself visit [nmap.org].
 
 ## Nmap parameters
 
