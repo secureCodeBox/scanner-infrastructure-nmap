@@ -6,8 +6,6 @@ COPY package.json package-lock.json /src/
 
 WORKDIR /src
 
-RUN ls
-
 RUN npm install --production
 
 COPY . /src
