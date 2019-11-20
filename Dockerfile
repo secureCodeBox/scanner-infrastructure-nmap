@@ -1,6 +1,8 @@
-FROM node:10-alpine
+FROM node:10-buster
 
-RUN apk update && apk upgrade && apk add nmap nmap-scripts
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y nmap
 
 COPY package.json package-lock.json /src/
 
@@ -12,7 +14,7 @@ COPY . /src
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=3 CMD node healthcheck.js || exit 1
 
-RUN addgroup -S nmap_group && adduser -S -g nmap_group nmap_user 
+RUN addgroup --system nmap_group && adduser --system --gecos nmap_group nmap_user 
 
 USER nmap_user
 
