@@ -5,19 +5,19 @@ RUN apt-get update && \
     apt-get install -y alien && \
     wget https://nmap.org/dist/nmap-7.80-1.x86_64.rpm && \
     alien nmap-7.80-1.x86_64.rpm && \
-    dpkg -i nmap_7.80-2_amd64.deb
+    dpkg -i nmap_7.80-2_amd64.deb && \
+    npm install --production && \
+    addgroup --system nmap_group && \
+    adduser --system --gecos nmap_group nmap_user 
+
 
 COPY package.json package-lock.json /src/
 
 WORKDIR /src
 
-RUN npm install --production
-
 COPY . /src
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=3 CMD node healthcheck.js || exit 1
-
-RUN addgroup --system nmap_group && adduser --system --gecos nmap_group nmap_user 
 
 USER nmap_user
 
