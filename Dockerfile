@@ -2,7 +2,10 @@ FROM node:10-buster
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y nmap
+    apt-get install -y alien && \
+    wget https://nmap.org/dist/nmap-7.80-1.x86_64.rpm && \
+    alien nmap-7.80-1.x86_64.rpm && \
+    dpkg -i nmap_7.80-2_amd64.deb
 
 COPY package.json package-lock.json /src/
 
