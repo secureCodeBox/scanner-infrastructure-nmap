@@ -1,3 +1,19 @@
+FROM alpine:3.9
+
+COPY ./nmap /nmap
+
+WORKDIR /nmap
+
+RUN apk update && \
+    apk upgrade && \
+    apk add build-base && \
+    apk add libpcap && \
+    apk add flex && \
+    apk add bison && \
+    apk add linux-headers && \
+    apk add openssl-dev && \
+    apk add libssh2-dev
+
 FROM node:10-buster
 
 RUN apt-get update && \
