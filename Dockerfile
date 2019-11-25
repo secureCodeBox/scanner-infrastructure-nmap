@@ -1,37 +1,96 @@
-FROM alpine:3.9
+FROM node:10-buster AS buildcontainer
 
-COPY ./nmap /nmap
+ENV  NMAP_SHA256SUM="fcfa5a0e42099e12e4bf7a68ebe6fde05553383a682e816a7ec9256ab4773faa" \
+     NMAP_VERSION=7.80
 
 WORKDIR /nmap
 
-RUN apk update && \
-    apk upgrade && \
-    apk add build-base && \
-    apk add libpcap && \
-    apk add flex && \
-    apk add bison && \
-    apk add linux-headers && \
-    apk add openssl-dev && \
-    apk add libssh2-dev
+ARG NMAP_PACKAGE="nmap-${NMAP_VERSION}.tar.bz2"
+ARG NMAP_URI="https://nmap.org/dist/${NMAP_PACKAGE}"
+
+RUN echo "Installing Nmap ${NMAP_VERSION}" && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends >/dev/null \
+    build-essential \
+    libexpat1-dev \
+    libffi-dev \
+    libssl-dev \
+    xz-utils \
+    zlib1g-dev \
+    flex \
+    libbison-dev \
+    libcap-dev \
+    bison \
+    && set -ex \
+    && curl -fsSLO ${NMAP_URI} \
+    && echo "${NMAP_SHA256SUM} ${NMAP_PACKAGE}" | sha256sum -c - \
+    && bzip2 -cd "${NMAP_PACKAGE}" | tar xvf - \
+    && cd "nmap-${NMAP_VERSION}" \
+    && ./configure \
+    && make -s -j "$(nproc)" \
+    && make -s install > /dev/null \
+    && ldconfig \
+    && apt-get -y remove >/dev/null \
+    build-essential \
+    libexpat1-dev \
+    libffi-dev \
+    libssl-dev \
+    xz-utils \
+    zlib1g-dev \
+    flex \
+    libbison-dev \ 
+    libcap-dev \
+    bison \
+    && apt-get autoremove -y >/dev/null \
+    && addgroup --system nmap_group && adduser --system --gecos nmap_group nmap_user
+
+USER nmap_user
+
+EXPOSE 8080
+
+ENV NMAP_UNPRIVILEGED=true
+
+ARG COMMIT_ID=unkown
+ARG REPOSITORY_URL=unkown
+ARG BRANCH=unkown
+ARG BUILD_DATE
+ARG VERSION
+
+ENV SCB_COMMIT_ID ${COMMIT_ID}
+ENV SCB_REPOSITORY_URL ${REPOSITORY_URL}
+ENV SCB_BRANCH ${BRANCH}
+
+LABEL org.opencontainers.image.title="secureCodeBox scanner-infrastructure-nmap" \
+    org.opencontainers.image.description="Nmap integration for secureCodeBox" \
+    org.opencontainers.image.authors="iteratec GmbH" \
+    org.opencontainers.image.vendor="iteratec GmbH" \
+    org.opencontainers.image.documentation="https://github.com/secureCodeBox/secureCodeBox" \
+    org.opencontainers.image.licenses="Apache-2.0" \
+    org.opencontainers.image.version=$VERSION \
+    org.opencontainers.image.url=$REPOSITORY_URL \
+    org.opencontainers.image.source=$REPOSITORY_URL \
+    org.opencontainers.image.revision=$COMMIT_ID \
+    org.opencontainers.image.created=$BUILD_DATE
 
 FROM node:10-buster
 
+ARG NMAP_VERSION=7.80
+
+COPY package.json package-lock.json /src/ 
+COPY --from=buildcontainer /nmap/nmap-${NMAP_VERSION} /nmap/nmap-${NMAP_VERSION}
+COPY . /src
+
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y alien && \
-    wget https://nmap.org/dist/nmap-7.80-1.x86_64.rpm && \
-    alien nmap-7.80-1.x86_64.rpm && \
-    dpkg -i nmap_7.80-2_amd64.deb && \
-    npm install --production && \
+    cd /nmap/nmap-${NMAP_VERSION} && \
+    make -s install > /dev/null && \
+    #rm -rf /nmap && \
+    cd /src && \
+    npm install --production && \ 
     addgroup --system nmap_group && \
     adduser --system --gecos nmap_group nmap_user 
 
-
-COPY package.json package-lock.json /src/
-
 WORKDIR /src
-
-COPY . /src
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=3 CMD node healthcheck.js || exit 1
 
