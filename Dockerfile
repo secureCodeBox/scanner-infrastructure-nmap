@@ -84,8 +84,8 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     cd /nmap/nmap-${NMAP_VERSION} && \
     make -s install > /dev/null && \
-    #rm -rf /nmap && \
     cd /src && \
+    rm -rf /nmap && \
     npm install --production && \ 
     addgroup --system nmap_group && \
     adduser --system --gecos nmap_group nmap_user 
