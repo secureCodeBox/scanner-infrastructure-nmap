@@ -1,4 +1,4 @@
-FROM node:10-buster AS buildcontainer
+FROM alpine:3.10 AS buildcontainer
 
 ENV  NMAP_SHA256SUM="fcfa5a0e42099e12e4bf7a68ebe6fde05553383a682e816a7ec9256ab4773faa" \
      NMAP_VERSION=7.80
@@ -9,63 +9,47 @@ ARG NMAP_PACKAGE="nmap-${NMAP_VERSION}.tar.bz2"
 ARG NMAP_URI="https://nmap.org/dist/${NMAP_PACKAGE}"
 
 RUN echo "Installing Nmap ${NMAP_VERSION}" && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends >/dev/null \
-    build-essential \
-    libexpat1-dev \
-    libffi-dev \
-    libssl-dev \
-    xz-utils \
-    zlib1g-dev \
-    flex \
-    libbison-dev \
-    libcap-dev \
-    bison \
-    && set -ex \
-    && curl -fsSLO ${NMAP_URI} \
-    && echo "${NMAP_SHA256SUM} ${NMAP_PACKAGE}" | sha256sum -c - \
-    && bzip2 -cd "${NMAP_PACKAGE}" | tar xvf - \
-    && cd "nmap-${NMAP_VERSION}" \
-    && ./configure \
-    && make -s -j "$(nproc)" \
-    && make -s install > /dev/null \
-    && ldconfig \
-    && apt-get -y remove >/dev/null \
-    build-essential \
-    libexpat1-dev \
-    libffi-dev \
-    libssl-dev \
-    xz-utils \
-    zlib1g-dev \
-    flex \
-    libbison-dev \ 
-    libcap-dev \
-    bison \
-    && apt-get autoremove -y >/dev/null 
+    apk update && \
+    apk upgrade && \
+    apk add build-base && \
+    apk add flex && \
+    apk add libcap-dev && \
+    apk add openssl-dev && \
+    apk add libssh2-dev && \
+    apk add bison && \
+    apk add curl && \
+    set -ex && \
+    curl -fsSLO ${NMAP_URI} && \
+    echo "${NMAP_SHA256SUM}  ${NMAP_PACKAGE}" | sha256sum -c - && \
+    bzip2 -cd "${NMAP_PACKAGE}" | tar xvf - && \
+    cd "nmap-${NMAP_VERSION}" && \
+    ./configure && \
+    make -s -j "$(nproc)" && \
+    make -s install
 
-FROM node:10-buster
+FROM node:10-alpine
 
 ARG NMAP_VERSION=7.80
 
 COPY package.json package-lock.json /src/ 
-COPY --from=buildcontainer /nmap/nmap-${NMAP_VERSION} /nmap/nmap-${NMAP_VERSION}
+COPY --from=buildcontainer /usr/local/ /usr/local
 COPY . /src
 
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    cd /nmap/nmap-${NMAP_VERSION} && \
-    make -s install > /dev/null && \
+WORKDIR /src
+
+RUN apk update && \
+    apk upgrade && \
+    apk add libssh2 && \
     cd /src && \
-    rm -rf /nmap && \
     npm install --production && \ 
-    addgroup --system nmap_group && \
-    adduser --system --gecos nmap_group nmap_user 
+    addgroup -S nmap_group && \
+    adduser -S -g nmap_group nmap_user
 
 WORKDIR /src
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=3 CMD node healthcheck.js || exit 1
 
-USER nmap_user
+# USER nmap_user
 
 EXPOSE 8080
 
