@@ -27,7 +27,7 @@ RUN echo "Installing Nmap ${NMAP_VERSION}" && \
     make -s -j "$(nproc)" && \
     make -s install
 
-FROM node:10-alpine
+FROM node:12-alpine
 
 ARG NMAP_VERSION=7.80
 
@@ -49,7 +49,7 @@ WORKDIR /src
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=3 CMD node healthcheck.js || exit 1
 
-# USER nmap_user
+USER nmap_user
 
 EXPOSE 8080
 
