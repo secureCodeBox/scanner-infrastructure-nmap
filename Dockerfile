@@ -40,7 +40,6 @@ WORKDIR /src
 RUN apk update && \
     apk upgrade && \
     apk add libssh2 && \
-    cd /src && \
     npm install --production && \ 
     addgroup -S nmap_group && \
     adduser -S -g nmap_group nmap_user
@@ -78,3 +77,4 @@ LABEL org.opencontainers.image.title="secureCodeBox scanner-infrastructure-nmap"
     org.opencontainers.image.created=$BUILD_DATE
 
 ENTRYPOINT [ "npm", "start" ]
+
