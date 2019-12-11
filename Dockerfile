@@ -22,9 +22,9 @@ RUN curl -fsSLO ${NMAP_URI}
 RUN echo "${NMAP_SHA256SUM}  ${NMAP_PACKAGE}" | sha256sum -c -
 RUN bzip2 -cd "${NMAP_PACKAGE}" | tar xvf -
 WORKDIR /nmap/nmap-${NMAP_VERSION}
-RUN ./configure
-RUN make -s -j "$(nproc)"
-RUN make -s install
+RUN ./configure && \
+    make -s -j "$(nproc)" && \
+    make -s install
 
 FROM node:12-alpine
 
