@@ -1,12 +1,12 @@
 FROM alpine:3.10 AS buildcontainer
 
-ENV  NMAP_SHA256SUM="fcfa5a0e42099e12e4bf7a68ebe6fde05553383a682e816a7ec9256ab4773faa" \
-     NMAP_VERSION=7.80
+ARG  NMAP_SHA256SUM="fcfa5a0e42099e12e4bf7a68ebe6fde05553383a682e816a7ec9256ab4773faa"
+ARG  NMAP_VERSION=7.80
 
 WORKDIR /nmap
 
-ARG NMAP_PACKAGE="nmap-${NMAP_VERSION}.tar.bz2"
-ARG NMAP_URI="https://nmap.org/dist/${NMAP_PACKAGE}"
+ENV NMAP_PACKAGE="nmap-${NMAP_VERSION}.tar.bz2"
+ENV NMAP_URI="https://nmap.org/dist/${NMAP_PACKAGE}"
 
 RUN echo "Installing Nmap ${NMAP_VERSION}" && \
     apk update && \
