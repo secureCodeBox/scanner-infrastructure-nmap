@@ -28,8 +28,6 @@ RUN ./configure && \
 
 FROM node:12-alpine
 
-ARG NMAP_VERSION=7.80
-
 COPY package.json package-lock.json /src/ 
 RUN npm install --production
 COPY --from=buildcontainer /usr/local/ /usr/local
