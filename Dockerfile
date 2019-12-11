@@ -18,14 +18,13 @@ RUN echo "Installing Nmap ${NMAP_VERSION}" && \
     apk add libssh2-dev && \
     apk add bison && \
     apk add curl
-RUN set -ex && \
-    curl -fsSLO ${NMAP_URI} && \
-    echo "${NMAP_SHA256SUM}  ${NMAP_PACKAGE}" | sha256sum -c - && \
-    bzip2 -cd "${NMAP_PACKAGE}" | tar xvf - && \
-    cd "nmap-${NMAP_VERSION}" && \
-    ./configure && \
-    make -s -j "$(nproc)" && \
-    make -s install
+RUN curl -fsSLO ${NMAP_URI}
+RUN echo "${NMAP_SHA256SUM}  ${NMAP_PACKAGE}" | sha256sum -c -
+RUN bzip2 -cd "${NMAP_PACKAGE}" | tar xvf -
+WORKDIR /nmap/nmap-${NMAP_VERSION}
+RUN ./configure
+RUN make -s -j "$(nproc)"
+RUN make -s install
 
 FROM node:12-alpine
 
