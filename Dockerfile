@@ -17,8 +17,8 @@ RUN echo "Installing Nmap ${NMAP_VERSION}" && \
     apk add openssl-dev && \
     apk add libssh2-dev && \
     apk add bison && \
-    apk add curl && \
-    set -ex && \
+    apk add curl
+RUN set -ex && \
     curl -fsSLO ${NMAP_URI} && \
     echo "${NMAP_SHA256SUM}  ${NMAP_PACKAGE}" | sha256sum -c - && \
     bzip2 -cd "${NMAP_PACKAGE}" | tar xvf - && \
@@ -39,9 +39,9 @@ WORKDIR /src
 
 RUN apk update && \
     apk upgrade --no-cache && \
-    apk add libssh2 --no-cache && \
-    npm install --production && \ 
-    addgroup -S nmap_group && \
+    apk add libssh2 --no-cache
+RUN npm install --production
+RUN addgroup -S nmap_group && \
     adduser -S -g nmap_group nmap_user
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=3 CMD node healthcheck.js || exit 1
