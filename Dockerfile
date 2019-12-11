@@ -38,8 +38,8 @@ COPY . /src
 WORKDIR /src
 
 RUN apk update && \
-    apk upgrade && \
-    apk add libssh2 && \
+    apk upgrade --no-cache && \
+    apk add libssh2 --no-cache && \
     npm install --production && \ 
     addgroup -S nmap_group && \
     adduser -S -g nmap_group nmap_user
