@@ -44,8 +44,6 @@ RUN apk update && \
     addgroup -S nmap_group && \
     adduser -S -g nmap_group nmap_user
 
-WORKDIR /src
-
 HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=3 CMD node healthcheck.js || exit 1
 
 USER nmap_user
