@@ -31,6 +31,7 @@ FROM node:12-alpine
 ARG NMAP_VERSION=7.80
 
 COPY package.json package-lock.json /src/ 
+RUN npm install --production
 COPY --from=buildcontainer /usr/local/ /usr/local
 COPY . /src
 
@@ -39,7 +40,6 @@ WORKDIR /src
 RUN apk update && \
     apk upgrade --no-cache && \
     apk add libssh2 --no-cache
-RUN npm install --production
 RUN addgroup -S nmap_group && \
     adduser -S -g nmap_group nmap_user
 
