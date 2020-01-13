@@ -28,12 +28,11 @@ RUN ./configure && \
 
 FROM node:12-alpine
 
-COPY package.json package-lock.json /src/ 
+COPY package.json package-lock.json /src/
+WORKDIR /src
 RUN npm install --production
 COPY --from=buildcontainer /usr/local/ /usr/local
 COPY . /src
-
-WORKDIR /src
 
 RUN apk update && \
     apk upgrade --no-cache && \
