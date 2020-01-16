@@ -16,39 +16,11 @@ Nmap ("Network Mapper") is a free and open source (license) utility for network 
 # About
 This repository contains a self contained µService utilizing the NMAP Networkscanner for the secureCodeBox project. To learn more about the Nmap scanner itself visit [nmap.org].
 
-## Nmap parameters
+## Nmap Configuration
 
-When the scanner is started the following variables need to be configured:
+The nmap scan target is set via the targets location of the securityTest. The target should be a Hostname or an IP Address.
 
-* `NMAP_CONTEXT`: The business context under which the scan should be executed
-* `NMAP_TARGET`: The scanner target (e.g. localhost, 132.145.77.11, example.com, etc.)
-* `NMAP_TARGET_NAME`: Specifies a name for the target (Used in the Results).
-* `NMAP_CONFIGURATION_TYPE`: _default_ or _advanced_. When set to _advanced_, additional
-options can be specified. 
-* `PROCESS_MARK_FALSE_POSITIVE`: Specifies if an additional task should be executed, which checks
-for false-positive results
-
-For information how to start a scanner see [Starting Scan Processes](https://github.com/secureCodeBox/engine/wiki/Starting-Scan-Processes)
-
-### Advanced Configuration
-
-If the `NMAP_CONFIGURATION_TYPE` is set to _advanced_, you have the 
-option to change the `NMAP_TARGET` again.
-Furthermore additional options for the Nmap parameters 
-can be defined. The most important options are: 
-
-* `-p` xx: Scan ports of the target. Replace xx with a single port number or
-a range of ports.
-* `-PS`, `-PA`, `-PU` xx: Replace xx with the ports to scan. TCP SYN/ACK or 
-UDP discovery.
-* `-sV`: Determine service and version info.
-* `-O`: Determine OS info.
-* `-A`: Determine service/version and OS info.
-* `-script` xx: Replace xx with the script name. Start the scan with the given script.
-* `--script` xx: Replace xx with a coma-separated list of scripts. Start the scan with the given scripts.
-
-A list of options is available in the input form of the scanner configuration.
-For a detailed explanation refer to the [Nmap Reference Guide](https://nmap.org/book/man.html).
+Additional nmap scan features can be configured via the `NMAP_PARAMTER` attribute. For a detailed explanation to which parameters are availible refer to the [Nmap Reference Guide](https://nmap.org/book/man.html).
 
 ## Example
 
