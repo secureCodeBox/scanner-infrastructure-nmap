@@ -51,21 +51,22 @@ A list of options is available in the input form of the scanner configuration.
 For a detailed explanation refer to the [Nmap Reference Guide](https://nmap.org/book/man.html).
 
 ## Example
+
 Example configuration:
 
 ```json
 [
-  {
-    "name": "nmap",
-    "context": "Example Test",
-    "target": {
-      "name": "BodgeIT on OpenShift",
-      "location": "bodgeit-scb.cloudapps.iterashift.com",
-      "attributes": {
-        "NMAP_PARAMTER": ""  
-      }
+    {
+        "name": "nmap",
+        "context": "BodgeIt",
+        "target": {
+            "name": "BodgeIt",
+            "location": "bodgeit.example.com",
+            "attributes": {
+                "NMAP_PARAMTER": "-Pn"
+            }
+        }
     }
-  }
 ]
 ```
 
@@ -74,119 +75,119 @@ Example Output:
 ```json
 {
     "findings": [
-      {
-        "id": "40d62ef5-81ca-4880-b59f-bd541f5d7c60",
-        "name": "http",
-        "description": "Port 80 is open using tcp protocol.",
-        "category": "Open Port",
-        "osi_layer": "NETWORK",
-        "severity": "INFORMATIONAL",
-        "attributes": {
-          "port": 80,
-          "state": "open",
-          "ip_address": "52.58.225.89",
-          "mac_address": null,
-          "protocol": "tcp",
-          "hostname": "bodgeit-scb.cloudapps.iterashift.com",
-          "method": "table",
-          "operating_system": null,
-          "service": "http",
-          "serviceProduct": null,
-          "serviceVersion": null,
-          "scripts": null
+        {
+            "id": "40d62ef5-81ca-4880-b59f-bd541f5d7c60",
+            "name": "http",
+            "description": "Port 80 is open using tcp protocol.",
+            "category": "Open Port",
+            "osi_layer": "NETWORK",
+            "severity": "INFORMATIONAL",
+            "attributes": {
+                "port": 80,
+                "state": "open",
+                "ip_address": "192.168.0.1",
+                "mac_address": null,
+                "protocol": "tcp",
+                "hostname": "bodgeit.example.com",
+                "method": "table",
+                "operating_system": null,
+                "service": "http",
+                "serviceProduct": null,
+                "serviceVersion": null,
+                "scripts": null
+            },
+            "location": "tcp://192.168.0.1:80",
+            "false_positive": false
         },
-        "location": "tcp://52.58.225.89:80",
-        "false_positive": false
-      },
-      {
-        "id": "120b6403-fb95-4794-92a6-af6ec53ecc54",
-        "name": "https",
-        "description": "Port 443 is open using tcp protocol.",
-        "category": "Open Port",
-        "osi_layer": "NETWORK",
-        "severity": "INFORMATIONAL",
-        "attributes": {
-          "port": 443,
-          "state": "open",
-          "ip_address": "52.58.225.89",
-          "mac_address": null,
-          "protocol": "tcp",
-          "hostname": "bodgeit-scb.cloudapps.iterashift.com",
-          "method": "table",
-          "operating_system": null,
-          "service": "https",
-          "serviceProduct": null,
-          "serviceVersion": null,
-          "scripts": null
+        {
+            "id": "120b6403-fb95-4794-92a6-af6ec53ecc54",
+            "name": "https",
+            "description": "Port 443 is open using tcp protocol.",
+            "category": "Open Port",
+            "osi_layer": "NETWORK",
+            "severity": "INFORMATIONAL",
+            "attributes": {
+                "port": 443,
+                "state": "open",
+                "ip_address": "192.168.0.1",
+                "mac_address": null,
+                "protocol": "tcp",
+                "hostname": "bodgeit.example.com",
+                "method": "table",
+                "operating_system": null,
+                "service": "https",
+                "serviceProduct": null,
+                "serviceVersion": null,
+                "scripts": null
+            },
+            "location": "tcp://192.168.0.1:443",
+            "false_positive": false
         },
-        "location": "tcp://52.58.225.89:443",
-        "false_positive": false
-      },
-      {
-        "id": "a24c9e95-536f-4374-9ef8-a76e4ac526c4",
-        "name": "https-alt",
-        "description": "Port 8443 is open using tcp protocol.",
-        "category": "Open Port",
-        "osi_layer": "NETWORK",
-        "severity": "INFORMATIONAL",
-        "attributes": {
-          "port": 8443,
-          "state": "open",
-          "ip_address": "52.58.225.89",
-          "mac_address": null,
-          "protocol": "tcp",
-          "hostname": "bodgeit-scb.cloudapps.iterashift.com",
-          "method": "table",
-          "operating_system": null,
-          "service": "https-alt",
-          "serviceProduct": null,
-          "serviceVersion": null,
-          "scripts": null
+        {
+            "id": "a24c9e95-536f-4374-9ef8-a76e4ac526c4",
+            "name": "https-alt",
+            "description": "Port 8443 is open using tcp protocol.",
+            "category": "Open Port",
+            "osi_layer": "NETWORK",
+            "severity": "INFORMATIONAL",
+            "attributes": {
+                "port": 8443,
+                "state": "open",
+                "ip_address": "192.168.0.1",
+                "mac_address": null,
+                "protocol": "tcp",
+                "hostname": "bodgeit.example.com",
+                "method": "table",
+                "operating_system": null,
+                "service": "https-alt",
+                "serviceProduct": null,
+                "serviceVersion": null,
+                "scripts": null
+            },
+            "location": "tcp://192.168.0.1:8443",
+            "false_positive": false
         },
-        "location": "tcp://52.58.225.89:8443",
-        "false_positive": false
-      },
-      {
-        "id": "9260dd97-a571-4a25-a253-d6ca9ccbb234",
-        "name": "dynamid",
-        "description": "Port 9002 is open using tcp protocol.",
-        "category": "Open Port",
-        "osi_layer": "NETWORK",
-        "severity": "INFORMATIONAL",
-        "attributes": {
-          "port": 9002,
-          "state": "open",
-          "ip_address": "52.58.225.89",
-          "mac_address": null,
-          "protocol": "tcp",
-          "hostname": "bodgeit-scb.cloudapps.iterashift.com",
-          "method": "table",
-          "operating_system": null,
-          "service": "dynamid",
-          "serviceProduct": null,
-          "serviceVersion": null,
-          "scripts": null
+        {
+            "id": "9260dd97-a571-4a25-a253-d6ca9ccbb234",
+            "name": "dynamid",
+            "description": "Port 9002 is open using tcp protocol.",
+            "category": "Open Port",
+            "osi_layer": "NETWORK",
+            "severity": "INFORMATIONAL",
+            "attributes": {
+                "port": 9002,
+                "state": "open",
+                "ip_address": "192.168.0.1",
+                "mac_address": null,
+                "protocol": "tcp",
+                "hostname": "bodgeit.example.com",
+                "method": "table",
+                "operating_system": null,
+                "service": "dynamid",
+                "serviceProduct": null,
+                "serviceVersion": null,
+                "scripts": null
+            },
+            "location": "tcp://192.168.0.1:9002",
+            "false_positive": false
         },
-        "location": "tcp://52.58.225.89:9002",
-        "false_positive": false
-      },
-      {
-        "id": "c98330a6-b2b3-4d12-b0f5-d41af0a13dbe",
-        "name": "Host: bodgeit-scb.cloudapps.iterashift.com",
-        "description": "Found a host",
-        "category": "Host",
-        "osi_layer": "NETWORK",
-        "severity": "INFORMATIONAL",
-        "attributes": {
-          "ip_address": "52.58.225.89",
-          "hostname": "bodgeit-scb.cloudapps.iterashift.com",
-          "operating_system": null
-        },
-        "location": "bodgeit-scb.cloudapps.iterashift.com",
-        "false_positive": false
-      }
+        {
+            "id": "c98330a6-b2b3-4d12-b0f5-d41af0a13dbe",
+            "name": "Host: bodgeit.example.com",
+            "description": "Found a host",
+            "category": "Host",
+            "osi_layer": "NETWORK",
+            "severity": "INFORMATIONAL",
+            "attributes": {
+                "ip_address": "192.168.0.1",
+                "hostname": "bodgeit.example.com",
+                "operating_system": null
+            },
+            "location": "bodgeit.example.com",
+            "false_positive": false
+        }
     ]
-  }
+}
 ```
 
 ## Development
