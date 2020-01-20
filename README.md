@@ -22,6 +22,19 @@ The nmap scan target is set via the targets location of the securityTest. The ta
 
 Additional nmap scan features can be configured via the `NMAP_PARAMTER` attribute. For a detailed explanation to which parameters are availible refer to the [Nmap Reference Guide](https://nmap.org/book/man.html).
 
+Some usefull example parameters listed below:
+
+* `-p` xx: Scan ports of the target. Replace xx with a single port number or
+a range of ports.
+* `-PS`, `-PA`, `-PU` xx: Replace xx with the ports to scan. TCP SYN/ACK or 
+UDP discovery.
+* `-sV`: Determine service and version info.
+* `-O`: Determine OS info. **Note:** This requires the the user to be run as root or the system capabilities to be extended to allow nmap to send raw sockets. See more information on [how to deploy the secureCodeBox nmap container to allow this](https://github.com/secureCodeBox/scanner-infrastructure-nmap/pull/20) and the [nmap docs about priviliged scans](https://secwiki.org/w/Running_nmap_as_an_unprivileged_user)
+* `-A`: Determine service/version and OS info.
+* `-script` xx: Replace xx with the script name. Start the scan with the given script.
+* `--script` xx: Replace xx with a coma-separated list of scripts. Start the scan with the given scripts.
+
+
 ## Example
 
 Example configuration:
