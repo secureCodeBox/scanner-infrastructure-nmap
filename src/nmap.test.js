@@ -132,6 +132,9 @@ describe('nmap', () => {
                     operating_system: null,
                     scripts: null,
                     state: 'open',
+                    ostype: null,
+                    conf: null,
+                    extrainfo: null,
                 },
             });
             expect(findings.length).toBe(2);
@@ -200,6 +203,9 @@ describe('nmap', () => {
                     operating_system: null,
                     scripts: null,
                     state: 'open',
+                    ostype: null,
+                    conf: null,
+                    extrainfo: null,
                 },
             });
 
@@ -224,6 +230,9 @@ describe('nmap', () => {
                     operating_system: null,
                     scripts: null,
                     state: 'open',
+                    ostype: null,
+                    conf: null,
+                    extrainfo: null,
                 },
             });
             expect(findings.length).toBe(3);
@@ -314,6 +323,9 @@ describe('nmap', () => {
                     operating_system: null,
                     scripts: null,
                     state: 'open',
+                    ostype: null,
+                    conf: null,
+                    extrainfo: null,
                 },
             });
             expect(findings).toContainEqual({
@@ -337,6 +349,9 @@ describe('nmap', () => {
                     operating_system: null,
                     scripts: null,
                     state: 'open',
+                    ostype: null,
+                    conf: null,
+                    extrainfo: null,
                 },
             });
             expect(findings.length).toBe(4);
