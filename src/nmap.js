@@ -53,7 +53,7 @@ function transform(hosts) {
                     serviceVersion: openPort.serviceVersion || null,
                     scripts: openPort.scriptOutputs || null,
                     ostype: openPort.ostype || null,
-                    conf: openPort.conf || null,
+                    confidence: openPort.conf || null,
                     extrainfo: openPort.extrainfo || null,
                 },
             };

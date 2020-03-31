@@ -133,7 +133,7 @@ describe('nmap', () => {
                     scripts: null,
                     state: 'open',
                     ostype: null,
-                    conf: null,
+                    confidence: null,
                     extrainfo: null,
                 },
             });
@@ -204,7 +204,7 @@ describe('nmap', () => {
                     scripts: null,
                     state: 'open',
                     ostype: null,
-                    conf: null,
+                    confidence: null,
                     extrainfo: null,
                 },
             });
@@ -231,7 +231,7 @@ describe('nmap', () => {
                     scripts: null,
                     state: 'open',
                     ostype: null,
-                    conf: null,
+                    confidence: null,
                     extrainfo: null,
                 },
             });
@@ -324,7 +324,7 @@ describe('nmap', () => {
                     scripts: null,
                     state: 'open',
                     ostype: null,
-                    conf: null,
+                    confidence: null,
                     extrainfo: null,
                 },
             });
@@ -350,7 +350,7 @@ describe('nmap', () => {
                     scripts: null,
                     state: 'open',
                     ostype: null,
-                    conf: null,
+                    confidence: null,
                     extrainfo: null,
                 },
             });
