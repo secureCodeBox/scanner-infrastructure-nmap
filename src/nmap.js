@@ -52,6 +52,9 @@ function transform(hosts) {
                     serviceProduct: openPort.serviceProduct || null,
                     serviceVersion: openPort.serviceVersion || null,
                     scripts: openPort.scriptOutputs || null,
+                    ostype: openPort.ostype || null,
+                    confidence: openPort.conf || null,
+                    extrainfo: openPort.extrainfo || null,
                 },
             };
         });

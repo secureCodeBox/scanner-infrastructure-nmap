@@ -11,11 +11,14 @@ Object {
   "result": Array [
     Object {
       "attributes": Object {
+        "confidence": null,
+        "extrainfo": null,
         "hostname": "localhost",
         "ip_address": "127.0.0.1",
         "mac_address": null,
         "method": "table",
         "operating_system": null,
+        "ostype": null,
         "port": 631,
         "protocol": "tcp",
         "scripts": null,
@@ -34,11 +37,14 @@ Object {
     },
     Object {
       "attributes": Object {
+        "confidence": null,
+        "extrainfo": null,
         "hostname": "localhost",
         "ip_address": "127.0.0.1",
         "mac_address": null,
         "method": "table",
         "operating_system": null,
+        "ostype": null,
         "port": 7778,
         "protocol": "tcp",
         "scripts": null,
@@ -57,11 +63,14 @@ Object {
     },
     Object {
       "attributes": Object {
+        "confidence": null,
+        "extrainfo": null,
         "hostname": "localhost",
         "ip_address": "127.0.0.1",
         "mac_address": null,
         "method": "table",
         "operating_system": null,
+        "ostype": null,
         "port": 8080,
         "protocol": "tcp",
         "scripts": null,
@@ -80,11 +89,14 @@ Object {
     },
     Object {
       "attributes": Object {
+        "confidence": null,
+        "extrainfo": null,
         "hostname": "localhost",
         "ip_address": "127.0.0.1",
         "mac_address": null,
         "method": "table",
         "operating_system": null,
+        "ostype": null,
         "port": 9200,
         "protocol": "tcp",
         "scripts": null,
@@ -117,11 +129,14 @@ Object {
     },
     Object {
       "attributes": Object {
+        "confidence": null,
+        "extrainfo": null,
         "hostname": "localhost",
         "ip_address": "127.0.0.1",
         "mac_address": null,
         "method": "table",
         "operating_system": null,
+        "ostype": null,
         "port": 631,
         "protocol": "tcp",
         "scripts": null,
@@ -140,11 +155,14 @@ Object {
     },
     Object {
       "attributes": Object {
+        "confidence": null,
+        "extrainfo": null,
         "hostname": "localhost",
         "ip_address": "127.0.0.1",
         "mac_address": null,
         "method": "table",
         "operating_system": null,
+        "ostype": null,
         "port": 7778,
         "protocol": "tcp",
         "scripts": null,
@@ -163,11 +181,14 @@ Object {
     },
     Object {
       "attributes": Object {
+        "confidence": null,
+        "extrainfo": null,
         "hostname": "localhost",
         "ip_address": "127.0.0.1",
         "mac_address": null,
         "method": "table",
         "operating_system": null,
+        "ostype": null,
         "port": 8080,
         "protocol": "tcp",
         "scripts": null,
@@ -186,11 +207,14 @@ Object {
     },
     Object {
       "attributes": Object {
+        "confidence": null,
+        "extrainfo": null,
         "hostname": "localhost",
         "ip_address": "127.0.0.1",
         "mac_address": null,
         "method": "table",
         "operating_system": null,
+        "ostype": null,
         "port": 9200,
         "protocol": "tcp",
         "scripts": null,
@@ -234,11 +258,14 @@ Object {
   "result": Array [
     Object {
       "attributes": Object {
+        "confidence": null,
+        "extrainfo": null,
         "hostname": "localhost",
         "ip_address": "127.0.0.1",
         "mac_address": null,
         "method": "table",
         "operating_system": null,
+        "ostype": null,
         "port": 631,
         "protocol": "tcp",
         "scripts": null,
@@ -257,11 +284,14 @@ Object {
     },
     Object {
       "attributes": Object {
+        "confidence": null,
+        "extrainfo": null,
         "hostname": "localhost",
         "ip_address": "127.0.0.1",
         "mac_address": null,
         "method": "table",
         "operating_system": null,
+        "ostype": null,
         "port": 7778,
         "protocol": "tcp",
         "scripts": null,
@@ -280,11 +310,14 @@ Object {
     },
     Object {
       "attributes": Object {
+        "confidence": null,
+        "extrainfo": null,
         "hostname": "localhost",
         "ip_address": "127.0.0.1",
         "mac_address": null,
         "method": "table",
         "operating_system": null,
+        "ostype": null,
         "port": 8080,
         "protocol": "tcp",
         "scripts": null,
@@ -303,11 +336,14 @@ Object {
     },
     Object {
       "attributes": Object {
+        "confidence": null,
+        "extrainfo": null,
         "hostname": "localhost",
         "ip_address": "127.0.0.1",
         "mac_address": null,
         "method": "table",
         "operating_system": null,
+        "ostype": null,
         "port": 9200,
         "protocol": "tcp",
         "scripts": null,
@@ -353,11 +389,14 @@ Object {
   "result": Array [
     Object {
       "attributes": Object {
+        "confidence": null,
+        "extrainfo": null,
         "hostname": "localhost",
         "ip_address": "127.0.0.1",
         "mac_address": null,
         "method": "table",
         "operating_system": null,
+        "ostype": null,
         "port": 631,
         "protocol": "tcp",
         "scripts": null,
@@ -376,11 +415,14 @@ Object {
     },
     Object {
       "attributes": Object {
+        "confidence": null,
+        "extrainfo": null,
         "hostname": "localhost",
         "ip_address": "127.0.0.1",
         "mac_address": null,
         "method": "table",
         "operating_system": null,
+        "ostype": null,
         "port": 7778,
         "protocol": "tcp",
         "scripts": null,
@@ -399,11 +441,14 @@ Object {
     },
     Object {
       "attributes": Object {
+        "confidence": null,
+        "extrainfo": null,
         "hostname": "localhost",
         "ip_address": "127.0.0.1",
         "mac_address": null,
         "method": "table",
         "operating_system": null,
+        "ostype": null,
         "port": 8080,
         "protocol": "tcp",
         "scripts": null,
@@ -422,11 +467,14 @@ Object {
     },
     Object {
       "attributes": Object {
+        "confidence": null,
+        "extrainfo": null,
         "hostname": "localhost",
         "ip_address": "127.0.0.1",
         "mac_address": null,
         "method": "table",
         "operating_system": null,
+        "ostype": null,
         "port": 9200,
         "protocol": "tcp",
         "scripts": null,
