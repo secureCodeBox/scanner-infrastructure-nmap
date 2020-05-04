@@ -28,15 +28,15 @@ RUN ./configure && \
 
 FROM node:12-alpine
 
+RUN apk update && \
+    apk upgrade --no-cache && \
+    apk add libssh2 --no-cache
 COPY package.json package-lock.json /src/
 WORKDIR /src
 RUN npm install --production
 COPY --from=buildcontainer /usr/local/ /usr/local
 COPY . /src
 
-RUN apk update && \
-    apk upgrade --no-cache && \
-    apk add libssh2 --no-cache
 RUN addgroup -S nmap_group && \
     adduser -S -g nmap_group nmap_user
 
