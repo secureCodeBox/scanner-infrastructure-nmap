@@ -1,6 +1,6 @@
 {
     "name": "securebox-nmap",
-    "version": "1.0.5",
+    "version": "1.2.1",
     "description": "SecureCodeBox Nmap Scanner",
     "author": "iteratec GmbH",
     "license": "Apache-2.0",
